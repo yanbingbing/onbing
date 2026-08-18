@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">创作过程跨越多次有限思考</title>
+  <desc id="desc">Agent 第一次判断提交后台任务后可以停下。任务和项目继续变化，页面关闭也不影响持久状态。任务更新进入 Inbox 后触发下一次判断；Agent 重新读取已经被人修改过的当前项目。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#17132a"/></linearGradient><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".3"/></filter><marker id="a" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker><marker id="g" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker><style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:38px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.t{font-size:18px;font-weight:700;fill:#f8fafc}.p{font-size:15px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#s)}</style></defs>
+  <rect width="1600" height="820" fill="url(#bg)"/><text x="800" y="60" text-anchor="middle" class="h">一次思考可以结束，创作过程仍然继续</text><text x="800" y="98" text-anchor="middle" class="sub">项目、任务、历史与 Inbox 的生命周期都长于一次模型执行</text>
+  <text x="70" y="185" class="p">时间</text><line x1="170" y1="180" x2="1530" y2="180" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <g class="box"><rect x="190" y="135" width="230" height="90" rx="20" fill="#103248" stroke="#38bdf8"/><rect x="505" y="135" width="180" height="90" rx="20" fill="#13352f" stroke="#34d399"/><rect x="780" y="135" width="180" height="90" rx="20" fill="#2b223f" stroke="#a78bfa"/><rect x="1055" y="135" width="220" height="90" rx="20" fill="#13352f" stroke="#34d399"/><rect x="1350" y="135" width="180" height="90" rx="20" fill="#103248" stroke="#38bdf8"/></g>
+  <text x="305" y="172" text-anchor="middle" class="t">第一次判断</text><text x="305" y="201" text-anchor="middle" class="m">提交生成任务后停下</text>
+  <text x="595" y="172" text-anchor="middle" class="t">Task 持续更新</text><text x="595" y="201" text-anchor="middle" class="m">后台独立运行</text>
+  <text x="870" y="172" text-anchor="middle" class="t">页面关闭</text><text x="870" y="201" text-anchor="middle" class="m">没有持续连接</text>
+  <text x="1165" y="172" text-anchor="middle" class="t">Task 完成</text><text x="1165" y="201" text-anchor="middle" class="m">更新进入 Inbox</text>
+  <text x="1440" y="172" text-anchor="middle" class="t">再次判断</text><text x="1440" y="201" text-anchor="middle" class="m">继续创作</text>
+
+  <text x="70" y="330" class="p">持久状态</text>
+  <rect x="190" y="275" width="1340" height="105" rx="24" fill="#111f31" stroke="#475569"/>
+  <rect x="225" y="307" width="275" height="44" rx="13" fill="#103248"/><rect x="545" y="307" width="275" height="44" rx="13" fill="#13352f"/><rect x="865" y="307" width="275" height="44" rx="13" fill="#292348"/><rect x="1185" y="307" width="305" height="44" rx="13" fill="#173047"/>
+  <text x="362" y="335" text-anchor="middle" class="p">完整消息历史</text><text x="682" y="335" text-anchor="middle" class="p">当前项目</text><text x="1002" y="335" text-anchor="middle" class="p">Task + 调用回执</text><text x="1337" y="335" text-anchor="middle" class="p">Inbox 中尚未处理的输入</text>
+
+  <text x="70" y="490" class="p">人的编辑</text>
+  <rect x="595" y="435" width="505" height="95" rx="22" fill="#2a2238" stroke="#f59e0b"/>
+  <text x="847" y="473" text-anchor="middle" class="t">用户在等待期间修改项目</text><text x="847" y="503" text-anchor="middle" class="m">替换镜头 · 调整时间线 · 修改标题</text>
+  <path d="M847 435C847 405 682 410 682 390" stroke="#f59e0b" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <text x="1120" y="480" class="m">人的每次修改不要求模型同步运行</text>
+
+  <text x="70" y="655" class="p">恢复路径</text>
+  <rect x="190" y="595" width="1340" height="125" rx="24" fill="#132339" stroke="#8b5cf6"/>
+  <rect x="235" y="628" width="230" height="58" rx="15" fill="#15352f"/><rect x="570" y="628" width="250" height="58" rx="15" fill="#292348"/><rect x="925" y="628" width="250" height="58" rx="15" fill="#103248"/><rect x="1280" y="628" width="205" height="58" rx="15" fill="#15352f"/>
+  <text x="350" y="663" text-anchor="middle" class="p">Task 更新 → Inbox</text><text x="695" y="663" text-anchor="middle" class="p">实时提示 / 恢复检查</text><text x="1050" y="663" text-anchor="middle" class="p">取得对话执行权</text><text x="1382" y="663" text-anchor="middle" class="p">读取当前项目</text>
+  <path d="M465 657H560" stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#g)"/><path d="M820 657H915" stroke="#67e8f9" stroke-width="3" fill="none" marker-end="url(#a)"/><path d="M1175 657H1270" stroke="#67e8f9" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <path d="M1382 595V235" stroke="#6ee7b7" stroke-width="3" stroke-dasharray="8 7" fill="none" marker-end="url(#g)"/>
+  <text x="800" y="775" text-anchor="middle" class="m">再次判断时应读取用户已经修改后的当前项目，而不是几分钟前留下的时间线副本</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="860" viewBox="0 0 1600 860" role="img" aria-labelledby="title desc">
+  <title id="title">Monitor 将 Task 更新转换为隐藏上下文</title>
+  <desc id="desc">monitoring 状态下，每个新的 Task 版本都先进入 Inbox。Monitor 读取当前批次，保留每项 Task 的最新版本并汇总 cohort 状态，再原子地用一条隐藏 context 替换选中的 task_update。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#17132a"/></linearGradient>
+    <linearGradient id="mon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0f766e"/><stop offset="1" stop-color="#4f46e5"/></linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#000" flood-opacity=".3"/></filter>
+    <marker id="a" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker><marker id="g" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker><marker id="v" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:38px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:16px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#s)}</style>
+  </defs>
+  <rect width="1600" height="860" fill="url(#bg)"/>
+  <text x="800" y="60" text-anchor="middle" class="h">每次进度都进入 Inbox，为什么还需要 Monitor</text>
+  <text x="800" y="98" text-anchor="middle" class="sub">它转换表达并合并同批更新，不筛选“什么进度值得 Agent 看”</text>
+
+  <g class="box"><rect x="70" y="170" width="390" height="485" rx="28" fill="#10283a" stroke="#38bdf8"/><rect x="565" y="235" width="400" height="350" rx="30" fill="url(#mon)" stroke="#a5f3fc" stroke-width="2"/><rect x="1070" y="170" width="460" height="485" rx="28" fill="#15342f" stroke="#34d399"/></g>
+  <text x="265" y="215" text-anchor="middle" class="t">同一个 Inbox · 转换前</text><text x="265" y="245" text-anchor="middle" class="m">每个权威新版本先写入 task_update</text>
+  <g>
+    <rect x="110" y="285" width="310" height="58" rx="14" fill="#15364a"/><rect x="110" y="360" width="310" height="58" rx="14" fill="#15364a"/><rect x="110" y="435" width="310" height="58" rx="14" fill="#2d2844"/><rect x="110" y="510" width="310" height="58" rx="14" fill="#15364a"/>
+    <text x="135" y="321" class="p">Task A · v18 · running · 63%</text><text x="135" y="396" class="p">Task A · v19 · running · 64%</text><text x="135" y="471" class="p">Task B · v7 · succeeded</text><text x="135" y="546" class="p">Task C · v4 · running · 21%</text>
+  </g>
+  <text x="265" y="615" text-anchor="middle" class="m">原始事件已经在 Inbox，不在 Monitor 外排队</text>
+
+  <text x="765" y="290" text-anchor="middle" class="t">Monitor</text>
+  <rect x="625" y="330" width="280" height="58" rx="15" fill="#134c4b"/><rect x="625" y="410" width="280" height="58" rx="15" fill="#30305d"/><rect x="625" y="490" width="280" height="58" rx="15" fill="#17423d"/>
+  <text x="765" y="366" text-anchor="middle" class="p">读取正在关注的任务组</text><text x="765" y="446" text-anchor="middle" class="p">同一批中每项只保留最新版本</text><text x="765" y="526" text-anchor="middle" class="p">汇总进行中 / 成功 / 失败</text>
+  <text x="765" y="572" text-anchor="middle" class="m">用一条结构稳定的新输入替换本批原始更新</text>
+
+  <text x="1300" y="215" text-anchor="middle" class="t">同一个 Inbox · 转换后</text><text x="1300" y="245" text-anchor="middle" class="m">模型读取一条结构稳定的任务简报</text>
+  <rect x="1120" y="300" width="360" height="215" rx="20" fill="#0f3d38" stroke="#34d399"/>
+  <text x="1150" y="342" class="p">Background Task Updates</text><text x="1150" y="378" class="m">summary: total 3 · active 2 · succeeded 1</text><text x="1150" y="414" class="m">Task A · v19 · running · 64%</text><text x="1150" y="447" class="m">Task B · v7 · succeeded</text><text x="1150" y="480" class="m">Task C · v4 · running · 21%</text>
+  <rect x="1120" y="550" width="155" height="58" rx="15" fill="#173047"/><rect x="1325" y="550" width="155" height="58" rx="15" fill="#292348"/>
+  <text x="1197" y="585" text-anchor="middle" class="p">交给当前思考</text><text x="1402" y="585" text-anchor="middle" class="p">触发下一次判断</text>
+  <text x="1300" y="632" text-anchor="middle" class="m">取决于 Agent 当时是否仍在工作</text>
+
+  <path d="M460 410H555" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#a)"/><path d="M965 410H1060" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#g)"/>
+  <path d="M1300 515V535C1300 545 1197 535 1197 540" stroke="#67e8f9" stroke-width="3" fill="none" marker-end="url(#a)"/><path d="M1300 515V535C1300 545 1402 535 1402 540" stroke="#c4b5fd" stroke-width="3" fill="none" marker-end="url(#v)"/>
+
+  <rect x="210" y="715" width="1180" height="74" rx="20" fill="#171e2e" stroke="#64748b"/><text x="800" y="747" text-anchor="middle" class="p">不变的权威来源：Task</text><text x="800" y="775" text-anchor="middle" class="m">Monitor 不保存第二份 Task，也不定义 63% 与 64% 的业务意义</text>
+</svg>

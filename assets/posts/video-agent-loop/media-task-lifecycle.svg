@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-labelledby="title desc">
+  <title id="title">媒体 Task 如何回到 Agent Loop</title>
+  <desc id="desc">Agent 提交媒体任务时留下调用回执。任务状态以持久 Task 为准，变化通知只用于加速发现。有限等待时，结果直接推动当前判断；转入后台感知后，每个新版本进入 Inbox，再由 Monitor 转成 Agent 的新输入。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#17132a"/></linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#000" flood-opacity=".3"/></filter>
+    <marker id="a" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
+    <marker id="v" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
+    <marker id="g" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:38px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:16px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#s)}</style>
+  </defs>
+  <rect width="1600" height="920" fill="url(#bg)"/>
+  <text x="800" y="60" text-anchor="middle" class="h">图片、视频生成完成后，怎样回到 Agent</text>
+  <text x="800" y="98" text-anchor="middle" class="sub">通知负责加速发现，Task 保存权威状态，WaitPort 保存结果归属</text>
+
+  <g class="box">
+    <rect x="70" y="170" width="285" height="170" rx="24" fill="#102c42" stroke="#38bdf8"/>
+    <rect x="455" y="170" width="285" height="170" rx="24" fill="#282044" stroke="#a78bfa"/>
+    <rect x="840" y="145" width="330" height="220" rx="26" fill="#123b37" stroke="#34d399" stroke-width="2"/>
+    <rect x="1270" y="170" width="265" height="170" rx="24" fill="#17293b" stroke="#38bdf8"/>
+  </g>
+  <text x="212" y="218" text-anchor="middle" class="t">Agent 提交任务</text><text x="212" y="255" text-anchor="middle" class="p">图片 / 视频 / 转写 / MG</text><text x="212" y="289" text-anchor="middle" class="m">请求受理与最终完成分开</text>
+  <text x="597" y="218" text-anchor="middle" class="t">调用回执 · WaitPort</text><text x="597" y="255" text-anchor="middle" class="p">原调用 ↔ 后台 Task</text><text x="597" y="289" text-anchor="middle" class="m">等待结果 / 转入后台感知</text>
+  <text x="1005" y="202" text-anchor="middle" class="t">权威 Task</text><text x="1005" y="239" text-anchor="middle" class="p">queued · running · succeeded</text><text x="1005" y="271" text-anchor="middle" class="p">failed · cancelled · artifact</text><rect x="905" y="300" width="200" height="42" rx="13" fill="#0b4a43"/><text x="1005" y="327" text-anchor="middle" class="p">Task Worker 执行</text>
+  <text x="1402" y="218" text-anchor="middle" class="t">变化通知</text><text x="1402" y="255" text-anchor="middle" class="p">任务身份 + 版本</text><text x="1402" y="289" text-anchor="middle" class="m">加速发现，不携带权威结果</text>
+  <path d="M355 255H445" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#a)"/><path d="M740 255H830" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#v)"/><path d="M1170 255H1260" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#g)"/>
+
+  <rect x="565" y="415" width="785" height="82" rx="20" fill="#11263a" stroke="#64748b"/>
+  <text x="957" y="448" text-anchor="middle" class="t">收到通知后，重新读取权威 Task 快照</text>
+  <text x="957" y="477" text-anchor="middle" class="m">按版本去重 · 通知丢失时由周期恢复检查重新发现</text>
+  <path d="M1402 340V390C1402 410 1350 420 1360 455H1360" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#a)"/>
+
+  <text x="95" y="565" class="sub">同一张调用回执，支持两种返回时机</text>
+  <g class="box"><rect x="70" y="600" width="670" height="235" rx="28" fill="#102b3c" stroke="#38bdf8"/><rect x="860" y="560" width="675" height="275" rx="28" fill="#241f3d" stroke="#a78bfa"/></g>
+  <text x="405" y="650" text-anchor="middle" class="t">有限等待 · 当前思考仍在等</text>
+  <text x="405" y="686" text-anchor="middle" class="p">转写最多等待 30 秒</text>
+  <rect x="130" y="728" width="250" height="60" rx="16" fill="#12384a"/><rect x="435" y="728" width="250" height="60" rx="16" fill="#15342f"/>
+  <text x="255" y="765" text-anchor="middle" class="p">最终状态作为调用结果</text><text x="560" y="765" text-anchor="middle" class="p">继续当前判断</text><path d="M380 758H425" stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#g)"/>
+
+  <text x="1197" y="610" text-anchor="middle" class="t">转入后台感知 · 外循环继续接收</text>
+  <text x="1197" y="646" text-anchor="middle" class="p">生成类任务提交后立即进入；转写超时后进入</text>
+  <rect x="910" y="692" width="245" height="76" rx="16" fill="#173047"/><rect x="1240" y="692" width="245" height="76" rx="16" fill="#15352f"/>
+  <text x="1032" y="723" text-anchor="middle" class="p">每个权威新版本</text><text x="1032" y="748" text-anchor="middle" class="m">任务更新进入 Inbox</text>
+  <text x="1362" y="723" text-anchor="middle" class="p">Monitor 转换</text><text x="1362" y="748" text-anchor="middle" class="m">成为 Agent 的新输入</text>
+  <path d="M1155 730H1230" stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#g)"/>
+  <path d="M957 497C957 525 670 535 600 590" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#a)"/><path d="M1030 497C1070 525 1197 520 1197 550" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#v)"/>
+</svg>

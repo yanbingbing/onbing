@@ -264,6 +264,22 @@ a:focus-visible {
   margin: 1.5em auto 0.6em;
 }
 
+.post-body > p:has(> img:only-child) {
+  width: min(1120px, calc(100vw - 40px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.post-body > h2 + p:has(> img:only-child),
+.post-body > h3 + p:has(> img:only-child) {
+  margin-top: 0;
+}
+
+.post-body > p:has(> img:only-child) img {
+  width: 100%;
+  margin-top: 0;
+}
+
 .post-body p:has(> em:only-child) {
   margin-top: 0;
   color: var(--muted);
@@ -306,6 +322,10 @@ a:focus-visible {
 
   .post-body h2 {
     font-size: 24px;
+  }
+
+  .post-body > p:has(> img:only-child) {
+    width: min(100vw - 20px, 1120px);
   }
 
   .site-footer {

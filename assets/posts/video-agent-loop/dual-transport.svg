@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="860" viewBox="0 0 1600 860" role="img" aria-labelledby="title desc">
+  <title id="title">Session Stream 与 Project Stream</title>
+  <desc id="desc">对话通道默认使用 SSE，也可选择 WebSocket，主要向浏览器持续交付回答和对话状态。项目通道使用 WebSocket，双向协调 Editor 在线状态、执行权、编辑命令与结果。两条连接都不保存业务真相。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#17132a"/></linearGradient><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#000" flood-opacity=".3"/></filter><marker id="a" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker><marker id="v" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker><marker id="g" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker><style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:38px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.t{font-size:20px;font-weight:700;fill:#f8fafc}.p{font-size:16px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#s)}</style></defs>
+  <rect width="1600" height="860" fill="url(#bg)"/><text x="800" y="60" text-anchor="middle" class="h">回答、指令和执行结果如何交回</text><text x="800" y="98" text-anchor="middle" class="sub">连接负责及时交付，持久消息与 Inbox 负责断线后的连续性</text>
+
+  <g class="box"><rect x="75" y="170" width="360" height="500" rx="30" fill="#102b3f" stroke="#38bdf8" stroke-width="2"/><rect x="1165" y="170" width="360" height="500" rx="30" fill="#282044" stroke="#a78bfa" stroke-width="2"/></g>
+  <text x="255" y="220" text-anchor="middle" class="t">StarCut 服务端</text><rect x="120" y="265" width="270" height="85" rx="18" fill="#12384a"/><rect x="120" y="390" width="270" height="85" rx="18" fill="#292348"/><rect x="120" y="515" width="270" height="105" rx="18" fill="#15352f"/>
+  <text x="255" y="298" text-anchor="middle" class="p">对话交付</text><text x="255" y="327" text-anchor="middle" class="m">快照 · 正式消息 · 流式增量 · 活动状态</text>
+  <text x="255" y="423" text-anchor="middle" class="p">项目执行协调</text><text x="255" y="452" text-anchor="middle" class="m">在线状态 · 执行权 · 编辑命令</text>
+  <text x="255" y="553" text-anchor="middle" class="p">收信箱 · Inbox</text><text x="255" y="582" text-anchor="middle" class="m">新消息 · 上下文 · 工具结果</text>
+
+  <text x="1345" y="220" text-anchor="middle" class="t">Browser Editor</text><rect x="1210" y="265" width="270" height="85" rx="18" fill="#30265a"/><rect x="1210" y="390" width="270" height="85" rx="18" fill="#292d5a"/><rect x="1210" y="515" width="270" height="105" rx="18" fill="#223b43"/>
+  <text x="1345" y="298" text-anchor="middle" class="p">回答与运行状态</text><text x="1345" y="327" text-anchor="middle" class="m">错过 Delta 后从提交快照恢复</text>
+  <text x="1345" y="423" text-anchor="middle" class="p">执行权与编辑命令</text><text x="1345" y="452" text-anchor="middle" class="m">同一项命令只有一个在线执行者</text>
+  <text x="1345" y="553" text-anchor="middle" class="p">执行结果</text><text x="1345" y="582" text-anchor="middle" class="m">原调用身份 + 单次执行凭证</text>
+
+  <g class="box"><rect x="535" y="195" width="530" height="190" rx="28" fill="#102b3f" stroke="#38bdf8"/><rect x="535" y="435" width="530" height="205" rx="28" fill="#272142" stroke="#a78bfa"/></g>
+  <text x="800" y="240" text-anchor="middle" class="t">对话通道 · Session Stream</text><text x="800" y="278" text-anchor="middle" class="p">默认 SSE · 可选 WebSocket</text><text x="800" y="315" text-anchor="middle" class="m">主要从服务端持续交付回答与对话状态</text><text x="800" y="350" text-anchor="middle" class="m">两种 Transport 承载同一套对话事件</text>
+  <text x="800" y="480" text-anchor="middle" class="t">项目通道 · Project Stream</text><text x="800" y="518" text-anchor="middle" class="p">使用 WebSocket</text><text x="800" y="555" text-anchor="middle" class="m">双向维持 Editor 在线状态、执行权与项目工具执行</text><text x="800" y="592" text-anchor="middle" class="m">结果也可以经 HTTP 回传，业务语义保持一致</text>
+
+  <path d="M435 305H525" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#a)"/><path d="M1065 305H1155" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#a)"/>
+  <path d="M435 430H525" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#v)"/><path d="M1065 430H1155" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#v)"/>
+  <path d="M1165 565C1115 565 1100 585 1065 585" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#g)"/><path d="M535 585C470 585 450 565 435 565" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#g)"/>
+
+  <rect x="245" y="735" width="1110" height="70" rx="20" fill="#171e2e" stroke="#64748b"/><text x="800" y="766" text-anchor="middle" class="p">恢复依据：完整对话历史 + 带游标的已提交消息 + 持久 Inbox</text><text x="800" y="792" text-anchor="middle" class="m">连接可以中断；调用身份、已提交结果和待处理输入仍然存在</text>
+</svg>
