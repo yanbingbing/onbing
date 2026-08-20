@@ -66,22 +66,23 @@
       <p class="post-meta"><time datetime="2026-08-20">2026-08-20</time></p>
 <p><img src="/assets/posts/video-gop-decode-flight/cover.png" alt="Video GOP Decode Flight 封面：一列由视频帧组成的高铁从关键帧出发，沿时间线依次抵达多个目标帧"></p>
 <p>桌面剪辑软件的预览为什么可以很丝滑？我们最初给出的答案很直接：它们更靠近 Native，能够使用 FFmpeg 和硬件加速。于是 StarCut 也尝试把解码放进 Tauri 原生侧，再把结果交给 WebView。这个方案听起来足够“底层”，实际运行后却没有解决问题。FFmpeg 解码本身并不慢，真正拖住画面的是解码之后那段路：每一张全尺寸像素都要穿过 Tauri 与网页之间的 IPC 通道。</p>
-<p>一张 4K RGBA 帧约 31.6 MiB，30 fps 接近每秒 1 GiB 的原始像素。只要这些帧反复穿过 IPC、复制进 JavaScript，再上传到 GPU，前面获得的硬件解码优势很快会被数据搬运抵消。这个弯路让实时预览链路收敛到两个关键词：<strong>硬件加速</strong>与<strong>少拷贝</strong>。任何方案只要偏离这两条，换成 Tauri、Electron、WASM 或另一套 Native Bridge，都很难从根本上获得高性能。</p>
+<p>一张 4K RGBA 帧约 31.6 MiB，30 fps 接近每秒 1 GiB 的原始像素。只要这些帧穿过 IPC、落进 JavaScript 或 WASM 内存，再重新上传 GPU，前面获得的硬件解码优势很快就会被数据搬运抵消。这个弯路让实时预览链路收敛到两个不可退让的原则：<strong>硬件加速</strong>与<strong>零拷贝</strong>。不满足这两条的方案，可以承担离线处理或兼容回退，但不能成为丝滑预览的主链路。</p>
 <h2>一、从 Tauri + FFmpeg 到浏览器内的 WebCodecs</h2>
 <p><img src="/assets/posts/video-gop-decode-flight/architecture-evolution.svg" alt="StarCut 实时视频预览从原生侧解码跨 IPC，收敛到 Tauri 提供文件与 Range、WebCodecs 在浏览器侧解码"></p>
 <p><em>把压缩字节送到解码器附近，比把解码后的大像素跨进程搬回来更经济。</em></p>
 <p>StarCut 最终让 Tauri 在实时预览中退回一个更简单、也更合适的位置：本地文件服务。它解析项目内的素材地址，按 Range 返回需要的压缩字节；媒体索引在导入阶段生成，实时运行时直接查询。解码留在 Web Worker，通过 WebCodecs 完成；输出保持为 <code>VideoFrame</code>，直接进入浏览器的合成与 GPU-backed 呈现路径。Tauri/FFmpeg 仍然适合导入、索引、抽取音频和转码等离线任务，只是不再负责播放、Seek 和 Scrub 的逐帧交互解码。</p>
 <p>这条路径传输的是压缩视频包。相对于数十 MiB 的全尺寸像素，一个压缩样本通常小得多；同一套 Worker 架构也可以运行在纯 Web 环境，区别只是底层字节来自 <code>starcut://</code> 文件协议、OPFS 还是远程 HTTP。</p>
 <p>浏览器原生 <code>&lt;video&gt;</code> 同样能够使用硬件解码，也是顺序播放的优秀方案。编辑器需要的控制面更细：一次 Seek 最终选择了哪个样本，快速连续 Seek 中哪些旧目标应该放弃，多层视频何时可以作为同一画面提交，已经解出的帧怎样与时间线缩略图共享。<code>&lt;video&gt;</code> 的目标是把媒体稳定播出来，它把这些策略封装在内部；单次 Seek 通常可以接受，连续 Scrub 时却很难稳定获得样本级反馈。WebCodecs 把压缩样本、解码队列和 <code>VideoFrame</code> 生命周期开放出来，调度问题因此回到应用手中。</p>
-<p>这里的“少拷贝”也不是一句不受条件约束的硬件承诺。浏览器、系统、编码格式和图形后端仍会决定实际路径。StarCut 能保证的是：实时主链路不主动把每张完整帧变成 RGBA 字节跨 IPC，不在呈现前做多余 readback，并在不再使用 <code>VideoFrame</code> 时及时 <code>close()</code>，避免占住解码器输出池。</p>
+<p>零拷贝描述的是<strong>解码后的全尺寸像素主链路</strong>，不是要求整个程序里不存在一次内存复制。索引、控制消息、压缩包和小尺寸缩略图都可以按各自成本正常传递；它们不是持续吞吐 4K30 画面的性能主线。架构首先要分清什么是洪水，什么只是几封信，不能因为边角数据允许复制，就降低像素主线的标准。</p>
+<p>这条主线的契约很明确：硬件解码得到的 <code>VideoFrame</code> 不落地成中间 RGBA，不穿过 Tauri IPC，不进入 WASM 线性内存，也不在呈现前被 JavaScript readback；它直接进入 Canvas / GPU 合成，用完立即 <code>close()</code>。无法维持这条路径的平台只能降级，不能成为丝滑预览的主链路。</p>
 <h2>二、语言不是瓶颈，架构才是瓶颈</h2>
 <p><img src="/assets/posts/video-gop-decode-flight/architecture-over-language.svg" alt="TypeScript 只负责时序需求与调度，WebCodecs 和 GPU 承担重计算；WASM 像素内存与 Tauri IPC 都会引入全帧复制边界"></p>
 <p><em>把决策留在 TypeScript，把像素重活交给原生媒体与 GPU 管线。</em></p>
-<p>做高性能媒体系统时，很容易先把问题归因于语言：JavaScript 不够快，那就换 Rust；浏览器不够快，那就上 WASM 或 Native。这个判断只有在比较同一段 CPU 计算时才成立。视频预览首先是一个物流问题：解码是否走硬件、像素跨了几次内存边界、同一 GOP 被重复运了几遍，以及 GPU 资源是否及时释放，往往比调度代码本身跑快多少更重要。</p>
+<p>做高性能媒体系统时，很容易先把问题归因于语言：JavaScript 不够快，那就换 Rust；浏览器不够快，那就上 WASM 或 Native。这个判断只有在比较同一段 CPU 计算时才成立。视频预览首先是一个物流问题：解码是否走硬件、全尺寸像素有没有离开 GPU 路径、同一 GOP 被重复解了几遍，以及 GPU 资源是否及时释放，往往比调度代码本身跑快多少更重要。</p>
 <p>这其实是一个不需要 benchmark 也能理解的常识：搬一张 32 MiB 的完整画面，与给几十个时间点排优先级，根本不是同一数量级。把后一个队列用 Rust 写快一倍，抵消不了前一个画面多搬一次。Rust 在 Tauri 侧可以很快完成 FFmpeg 解码，但像素仍要经过 IPC 进入 WebView；典型的 WASM 软件解码器会把结果写进线性内存，随后还要交给浏览器并上传 GPU。两条路径都在最重的数据上增加了边界。</p>
 <p>WASM 很适合补充浏览器缺少的 CPU 算法、格式解析和离线处理，也可以与 WebCodecs 组合；它并不天然拥有浏览器的硬件视频解码和 GPU 表面。只要最终仍由 WebCodecs 提供硬件能力，性能优势来自媒体管线的放置，而不是 <code>.wasm</code> 这个后缀。</p>
 <p>看起来反直觉的是，StarCut 的实时视频控制面仍然可以使用纯 TypeScript。原因不是 TypeScript 突然比 Rust 更快，而是它只做自己擅长的事：计算时间需求、合并 GOP 路线、分配解码器、决定缓存驻留，并管理 <code>VideoFrame</code> 生命周期。压缩数据解析由 MediaBunny 等成熟组件完成，重解码由 WebCodecs 交给浏览器与硬件，最终合成继续留在 Canvas / GPU 路径。TypeScript 不循环处理 4K 像素，也不实现 H.264 或 HEVC 解码器。</p>
-<p>StarCut 真正要验证的，是浏览器在合理架构下同样能够获得成熟桌面剪辑软件那种跟手的播放与 Scrub。核心方法很朴素：跨边界传压缩数据和控制信息，完整像素尽量留在解码与显示一侧；已经付出的 GOP 工作尽量复用；有限的 GPU 只保留此刻最有价值的帧。不要指望用 Rust、WASM 或 Native 逃避架构问题。用更快的语言实现一条错误的数据流，得到的仍然是一条错误的数据流。</p>
+<p>StarCut 真正要验证的，是浏览器在合理架构下同样能够获得成熟桌面剪辑软件那种跟手的播放与 Scrub。方法并不含糊：跨边界只传压缩数据和控制信息，解码后的完整像素不离开 GPU 主链路；已经付出的 GOP 工作必须复用；有限的 GPU 只保留此刻最有价值的帧。不要指望用 Rust、WASM 或 Native 逃避架构问题。用更快的语言实现一条错误的数据流，得到的仍然是一条错误的数据流。</p>
 <h2>三、全 I 帧最轻松，但项目存不起第二份视频</h2>
 <p><img src="/assets/posts/video-gop-decode-flight/codec-difficulty-ladder.svg" alt="I、P、B 帧依赖、全 I 帧与长 GOP 的空间取舍，以及从播放到 Scrub 的解码难度阶梯"></p>
 <p><em>编码越依赖前后帧，文件越紧凑，随机访问需要经过的路线也越长。</em></p>
