@@ -120,6 +120,55 @@
 <li>向前寻找它所属 GOP 的关键样本；</li>
 <li>从关键样本开始按解码顺序推进，直到目标帧输出。</li>
 </ol>
+<p>GOP 没有一个适用于所有视频的固定上限，它由编码器配置、帧率、场景切换和交付方式共同决定。有的交付链路会主动缩短间隔，例如 <a href="https://developer.apple.com/documentation/http-live-streaming/hls-authoring-specification-for-apple-devices-appendixes/">Apple HLS 的 I-frame 序列建议</a>每一到两秒提供一个关键帧；长 GOP 文件则很容易达到数百帧。<a href="https://github.com/mirror/x264/blob/master/common/base.c">x264 的默认最大关键帧间隔</a>和 <a href="https://x265.readthedocs.io/en/latest/cli.html#cmdoption-keyint">x265 的默认最大帧内周期</a>都是 250 帧，x265 甚至允许配置为无限 GOP。换成 30 fps，250 帧已经覆盖约 8.3 秒。因此，200 帧 GOP 并不是一个只存在于极端测试里的数字。</p>
+<p>把目标帧近似看作在一个固定长度 GOP 内均匀分布，就能直观看到随机访问的代价。设 GOP 长度为 <code>G</code>：直接命中关键帧的概率只有 <code>1/G</code>；目标与关键帧之间平均相隔 <code>(G-1)/2</code> 帧；最差要从关键帧一路推进 <code>G-1</code> 帧。若把起点和目标本身也算入解码提交量，平均需要解 <code>(G+1)/2</code> 个样本，最差需要解完整个 GOP。</p>
+<table>
+<thead>
+<tr>
+<th align="right">GOP 长度</th>
+<th align="right">30 fps 对应时长</th>
+<th align="right">直接命中关键帧</th>
+<th align="right">平均向后推进</th>
+<th align="right">最差向后推进</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">30 帧</td>
+<td align="right">1.0 秒</td>
+<td align="right">3.33%</td>
+<td align="right">14.5 帧</td>
+<td align="right">29 帧</td>
+</tr>
+<tr>
+<td align="right">60 帧</td>
+<td align="right">2.0 秒</td>
+<td align="right">1.67%</td>
+<td align="right">29.5 帧</td>
+<td align="right">59 帧</td>
+</tr>
+<tr>
+<td align="right">120 帧</td>
+<td align="right">4.0 秒</td>
+<td align="right">0.83%</td>
+<td align="right">59.5 帧</td>
+<td align="right">119 帧</td>
+</tr>
+<tr>
+<td align="right">200 帧</td>
+<td align="right">6.7 秒</td>
+<td align="right"><strong>0.50%</strong></td>
+<td align="right"><strong>99.5 帧</strong></td>
+<td align="right"><strong>199 帧</strong></td>
+</tr>
+<tr>
+<td align="right">250 帧</td>
+<td align="right">8.3 秒</td>
+<td align="right">0.40%</td>
+<td align="right">124.5 帧</td>
+<td align="right">249 帧</td>
+</tr>
+</tbody></table>
+<p>所以，在 200 帧 GOP 中随手点中一个位置，99.5% 的概率都不能直接从目标开始；平均要偿还约一半 GOP 的依赖，最不走运时接近完整解一遍。一次 Seek 尚且如此，Scrub 在相邻目标之间连续跳动时，如果每次都回到关键帧重新出发，重复工作会迅速放大。这正是后面 GOP Flight 要组织和复用的成本。</p>
 <p>这里还有两个容易被界面隐藏的事实。第一，解码输入遵循 DTS 顺序，画面呈现遵循 PTS 顺序；包含 B 帧时，两者并不相同。第二，浏览器收到的往往是远程视频，随机访问不仅要解码，还要先读取对应 GOP 的字节范围。</p>
 <p>因此，编辑器需要一份可靠的媒体索引：它把时间映射到样本，记录 PTS、DTS、关键帧、字节偏移和大小。索引先指出“从哪个站发车、需要读取哪段轨道”，解码器才开始真正工作。StarCut 为媒体生成轻量的侧车索引文件（sidecar），并通过 HTTP Range 只读取相关 GOP，取一帧不必先下载完整视频。</p>
 <p>这也是后续所有调度的物理边界：交互可以任意跳转，解码路线仍必须尊重压缩视频的依赖顺序。</p>
