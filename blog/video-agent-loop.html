@@ -9,7 +9,7 @@
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://onbing.com/blog/video-agent-loop">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/site.css?v=20260821-2">
+  <link rel="stylesheet" href="/assets/site.css?v=20260821-3">
   <link rel="alternate" type="application/rss+xml" title="onbing RSS" href="https://onbing.com/feed.xml">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="onbing">
@@ -77,7 +77,7 @@
 
       <h2>一、先把 Agent 还原成一个 ToolLoop</h2>
       <p>大家经常用 ReAct 描述 Agent：reasoning、acting，再 reasoning。这个概念没有错，但它太容易停留在模型“会思考、会行动”的抽象层。工程真正需要实现的，其实只有一条可以运行的链路：</p>
-      <p><img src="/assets/posts/video-agent-loop/tool-loop-foundation-v2.svg" alt="最小 Tool Loop：模型判断、调用工具、读取结果并进入下一步；多个 Step 构成 Run，多次 Run 构成 Session"></p>
+      <p><img src="/assets/posts/video-agent-loop/tool-loop-foundation-v2.svg?v=20260821-2" alt="最小 Tool Loop：模型判断、调用工具、读取结果并进入下一步；多个 Step 构成 Run，多次 Run 构成 Session"></p>
       <p>模型接收上下文，决定直接回答，或者输出一个结构化 Tool Call。Harness 校验参数、执行工具，把 Tool Result 放回上下文；模型拿到新的事实以后，再发起下一次请求。直到模型结束这次工作，或者触发停止条件。</p>
       <p>我们更愿意把它叫作 <strong>ToolLoop</strong>。因为这个名字直接说明了系统必须做什么，没有暗示模型内部存在一套不可见的工作流。</p>
       <p>这里先分清三个尺度：</p>
@@ -90,7 +90,7 @@
 
       <h2>二、Tool 是手，Skill 是说明书</h2>
       <p>模型本身既看不见项目，也改不了时间线。它能做什么，取决于系统给了它什么样的手和感知系统。</p>
-      <p><img src="/assets/posts/video-agent-loop/tool-skill-kit-v2.svg" alt="Skill 是按需加载的方法，Tool 是视频 Agent 的感知、操作、协作和异步能力"></p>
+      <p><img src="/assets/posts/video-agent-loop/tool-skill-kit-v2.svg?v=20260821-2" alt="Skill 是按需加载的方法，Tool 是视频 Agent 的感知、操作、协作和异步能力"></p>
       <p><strong>Tool 是一个可执行接口。</strong>它有名字、输入 Schema 和结果。模型调用 <code>read</code>，真的读取当前项目；调用 <code>edit</code>，真的修改时间线；调用 <code>run_task</code>，真的提交一次生成任务。</p>
       <p><strong>Skill 不执行任何事情。</strong>它是按需加载的领域方法：怎样组织一条时间线，什么时候需要安全区，图片生成该选择哪类输入，MG 动画有哪些可编辑属性。Skill 教模型怎样组合 Tool，却不能替 Tool 完成工作。</p>
       <p>这一区分很重要。把所有方法都塞进系统提示词，上下文会越来越重；把每个工作流都固化成一个大 Tool，能力又会越来越僵。StarCut 只把 Skill 的名称和用途放进基础上下文，需要时再加载全文；Tool 则保持稳定、可校验、可执行。</p>
@@ -111,7 +111,7 @@
       <p>第二个问题是<strong>时间尺度不同</strong>。一次查询只要几毫秒，一次编辑可能几百毫秒，一张图片需要数秒，一段视频可能需要几分钟。让模型进程一直等着，不但浪费资源，还会把系统正确性绑在网络连接和容器寿命上。</p>
       <p>第三个问题是<strong>Session 比 Run 活得久</strong>。用户关掉网页、Worker 重启、部署替换容器，都不应该让已经提交的工作和刚才的对话消失。</p>
       <p>这三个约束共同推出 StarCut 的双循环：</p>
-      <p><img src="/assets/posts/video-agent-loop/double-loop-runtime-v2.svg" alt="StarCut Video Agent Loop：内循环在一次 Run 中连续使用工具，外循环在用户、任务和项目发生变化后恢复新的 Run"></p>
+      <p><img src="/assets/posts/video-agent-loop/double-loop-runtime-v2.svg?v=20260821-2" alt="StarCut Video Agent Loop：内循环在一次 Run 中连续使用工具，外循环在用户、任务和项目发生变化后恢复新的 Run"></p>
       <p><em>内循环推进当前判断，外循环把变化后的世界重新交给 Agent。</em></p>
       <p><strong>内循环是一次有限 Run。</strong>它先从数据库恢复对话历史，领取 Inbox 中的新输入，再组装当前项目、记忆和按需 Skill，启动一个 <code>ToolLoopAgent</code>。Run 中可以连续完成多个 Step；如果用户在中途补充信息，新的消息会在下一个 Step 边界并入上下文。</p>
       <p>这一次 Run 有两种输出。模型文字和 Tool 参数以 Delta 持续流向界面，让用户立即看到进度；完整消息和完整 Tool Call 则写入持久历史。前者负责体验，可以断；后者负责恢复，不能丢。Run 只有在完整消息保存以后，才确认本批 Inbox 已经被消费并释放运行租约。</p>
@@ -120,7 +120,7 @@
 
       <h2>四、一条 Tool Call，怎样跨过四种执行边界</h2>
       <p>模型只应该知道“我要调用什么能力”，不应该知道当前是哪台服务器、哪个浏览器标签页或哪一个 Worker 在执行。于是我们把 Tool Call 本身和执行位置拆开。</p>
-      <p><img src="/assets/posts/video-agent-loop/tool-execution-boundaries-v2.svg" alt="同一 Tool Call 先成为已提交消息，再分别交给 Human、Server Runner、Client Runner 或 Task Worker；结果统一回到 Inbox"></p>
+      <p><img src="/assets/posts/video-agent-loop/tool-execution-boundaries-v2.svg?v=20260821-2" alt="同一 Tool Call 先成为已提交消息，再分别交给 Human、Server Runner、Client Runner 或 Task Worker；结果统一回到 Inbox"></p>
       <p>完整 Tool Call 先被保存为一条已提交消息。消息流让 UI 和各类执行组件都能看到它，但<strong>看见不等于有权执行</strong>。系统根据 Tool 的执行策略选择处理方式：</p>
       <ul>
         <li><code>ask_user</code> 的执行者是人。</li>
@@ -130,55 +130,54 @@
       </ul>
       <p>它们有不同的执行者，却共用同一个结果协议：普通结果携带 <code>toolCallId</code> 进入 Inbox，找到原来的 Tool Call。当前 Run 正在等待，就直接进入下一个 Step；Run 已经结束，就在下一次恢复时把原调用补成“结果可用”。</p>
 
-      <h3><code>ask_user</code>：最纯粹的跨 Run 恢复</h3>
-      <p><code>ask_user</code> 故意没有 <code>execute</code>。模型发出问题后，系统保存开放中的 Tool Call，当前 Run 就可以结束。Editor 从已提交消息中渲染问题；用户回答以后，答案作为这个 Tool Call 唯一的 Result 进入 Inbox，并启动新的 Run。</p>
-      <p>这条链路验证的不是 Client Runner，而是更基础的一件事：<strong>旧进程已经不存在，Session 仍然能沿着同一个 Tool Call 继续。</strong></p>
+      <h3><code>ask_user</code>：问题发出去以后，旧进程可以消失</h3>
+      <p>假设 Agent 做到一半，需要用户决定成片用 16:9 还是 9:16。Agent 可以判断“这件事必须问人”，却不能替用户作答。它把问题保存下来；Editor 显示问题以后，Run A 就结束，等待期间不需要保留模型进程。</p>
+      <p><img src="/assets/posts/video-agent-loop/ask-user-resume-v2.svg?v=20260821-2" alt="ask_user 的完整时序：Run A 保存问题后结束，用户在 Editor 回答，答案进入 Inbox，Run B 从同一个问题继续"></p>
+      <p>用户选择“9:16”，答案带着原问题的身份进入 Inbox。Run B 从持久历史恢复，看见这个问题已经有了答案，于是继续分镜。这里持续存在的不是旧进程，而是 Session 里那个尚未回答的问题。</p>
+      <p>所以，<code>ask_user</code> 验证的不是 Client Runner，而是更基础的一件事：<strong>一次 Run 可以结束，同一项任务仍然能够从人的回答继续。</strong></p>
 
       <h3><code>query</code>：为什么需要 Server Runner</h3>
       <p>生成图片之前，Agent 先用 <code>query</code> 按用途查询可用模型；做配音时，也先查询模型支持的声音。这个查询发生在服务端，但我们没有把它直接写进通用 Loop。</p>
       <p>Run 先保存 Tool Call，Server Runner 订阅已提交消息，调用服务端的查询能力取得权威目录结果，再用 <code>toolCallId</code> 写回 Inbox。通常结果很快，正在等待的 ToolLoopAgent 会在同一次 Run 中继续。</p>
       <p>多走这一圈的价值不是“异步”。它建立了一条一致边界：通用 Loop 只管理 Tool Call 生命周期，应用层决定 Tool 的真实实现；即使进程在调用保存后崩溃，开放中的调用仍然可以重新发现。</p>
 
-      <h2>五、外部 Agent 怎样进入同一块画布</h2>
-      <p>视频编辑器不能被简化成一组服务端数据。Agent 要面对的是用户此刻正在创作的项目：既要修改内容，也要播放、预览、抽帧和渲染。</p>
-      <p>我们选择浏览器，不是因为浏览器更容易实现这些能力。恰恰相反，Native 应用更容易持有本地运行时。但浏览器获客更直接，链接更容易传播，也能被 Codex、Claude Code 等外部 Agent 打开并进入同一个编辑现场。这是产品约束，由此才推出 Client Runner 和长期连接，而不是先有技术方案再找理由。</p>
-      <p><img src="/assets/posts/video-agent-loop/client-canvas-sequence-v2.svg" alt="内置 Agent、MCP 和 CLI 通过统一的项目 API 控制画布；只有播放、预览和渲染等现场能力需要在线 Editor"></p>
-      <p>无论是 StarCut 内置 Agent，还是外部的 Codex，它们都不应该通过屏幕坐标和鼠标动作控制画布。它们操作的是视频项目的语义：读取已有结构、插入素材、调整顺序、修改属性，然后要求 Editor 播放或预览。<strong>画布是操作结果，不是 Agent 接口。</strong></p>
-      <p>内置 Agent 从自己的 ToolLoop 进入；Codex 等外部 Agent 则通过 MCP 打开项目、调用 StarCut 的语义能力。StarCut 不需要合并两边的 Session：每个 Agent 保留自己的推理过程，只在项目能力这一层相遇。</p>
-      <p>如果以后提供 CLI，它只是另一种入口：更适合终端、脚本和自动化，但不应该在命令行背后再实现一套视频编辑器。这也暴露了下一步要升级的方向：<strong>把真正的产品边界从 MCP 提升为统一的 Project API。</strong>MCP、CLI 和内置 Agent 都只是适配器；一种能力只定义一次，入口可以增加，项目语义不能分叉。</p>
-      <p>API 化也不等于把所有东西都搬到服务端。项目读取和结构化编辑可以直接走统一通道；播放、预览、本地渲染这类必须依赖现场的能力，仍然交给在线 Editor。平台决定调用去哪里，调用者不需要知道背后是哪一个进程完成的。</p>
+      <h2>五、长任务怎样回来：Monitor 盯变化，Clock 盯时间</h2>
+      <p>一段视频可能几分钟后才生成。模型进程不应该等在原地；StarCut 用两种方式把未来重新送回 Session：外部任务发生变化，交给 Monitor；Agent 想在未来主动复查，交给 Clock。</p>
 
-      <h3>能看见调用，不等于拥有执行权</h3>
-      <p>这也是浏览器仍然需要长连接的原因：系统要知道哪个 Editor 在线、具备什么能力，以及多窗口同时打开时谁代表当前编辑现场。三个窗口都可以看到调用，但只能有一个接受执行，否则一次“插入片段”会在画布上发生三遍。长连接解决的是现场发现和执行权交接，不是再造一套编辑协议。</p>
+      <h3>Monitor：任务变了，Agent 再判断</h3>
+      <p><code>run_task</code> 提交图片、视频或语音生成后，先返回“已经开始监控”。原 Tool Call 到此完成，Task 随后独立运行。</p>
+      <p><img src="/assets/posts/video-agent-loop/monitor-resume-v2.svg?v=20260821-2" alt="Monitor 恢复长任务：Run A 提交任务后结束，Task 独立更新权威状态，Monitor 重新读取并整理变化，经 Inbox 唤醒 Run B"></p>
+      <p>任务表是事实，变化通知只是提示。Monitor 收到提示后重新读取任务，把同一批任务的最新进展整理成一次新感知，再经 Inbox 唤醒 Run B。它不执行生成，也不替模型决定下一步；模型仍要面对当前项目和新产物重新判断。</p>
 
-      <h2>六、媒体长任务：为什么 Result 之后还需要 Monitor</h2>
-      <p>Agent 查询到合适模型以后，调用 <code>run_task</code> 生成图片、视频或语音。但提交长任务以前，系统必须先记住它属于哪次调用、结果应该回到哪里；否则 Task 虽然完成了，Agent 却再也找不到它。</p>
-      <p>图片、视频、语音、MG 和 SVG 生成当前不阻塞 Run，提交后立即得到 <code>monitoring</code>；转写允许有限等待，三十秒内完成就直接返回，超过时间再转入监控。快结果留在当前 ToolLoop，慢结果则脱离模型进程继续。</p>
-      <p><img src="/assets/posts/video-agent-loop/monitor-resume-v2.svg" alt="ask_user 与媒体长任务的恢复语义：ask_user 的回答是唯一 Tool Result；媒体 Tool Call 已返回 monitoring，后续 Task 更新由 Monitor 转成隐藏上下文"></p>
-      <p>这里有一个容易被忽略的协议约束：<strong>一个 Tool Call 只能有一个 Result。</strong>如果 <code>run_task</code> 已经返回“任务已进入监控”，几分钟后的成片不能再成为它的第二个 Result。</p>
+      <h3>Clock：没有新事件，也可以在未来醒来</h3>
+      <p>有时 Agent 等的不是“任务完成”，而是“十分钟后再检查一次”。这时它给当前 Session 留下一只持久闹钟，然后结束本次 Run。</p>
+      <p><img src="/assets/posts/video-agent-loop/clock-wakeup-v2.svg?v=20260821-2" alt="Clock 的持久唤醒：Agent 预约未来复查，闹钟独立保存，到点后提醒进入 Inbox 并启动新的 Run"></p>
+      <p>Clock 可以设置、修改、取消和列出闹钟。到点后，提醒进入 Inbox，新的 Run 再读取真实状态；等待期间没有进程在 <code>sleep</code>。Monitor 回答“外部世界变了什么”，Clock 回答“什么时候主动再看一眼”，最后都回到同一个外循环。</p>
+      <p>Coding Agent 常常跟踪一个后台进程；视频 Agent 跟踪的则是跨 Worker、模型供应商和存储系统的领域 Task。两者都需要可追踪的身份，但后者更不能把进程本身当成事实。</p>
 
-      <h3>Monitor 观察变化，但不把通知当成事实</h3>
-      <p>后台任务完成以后，先保存自己的最终状态，再发出一条变化信号。Monitor 收到信号后重新读取任务；信号可以重复、迟到，甚至丢失，但任务结果不能因此消失。</p>
-      <p>因此，通知只是让系统更快醒来。真正决定“任务完成了没有、产物在哪里”的，始终是任务本身；恢复检查还能补上没有被及时看见的变化。</p>
+      <h2>六、Agent 怎样通过 <code>write</code> / <code>edit</code> 控制画布</h2>
+      <p>模型不能直接拖动时间线，也不应该模拟鼠标。它先把创作意图写成项目操作：新建或整体重写用 <code>write</code>，只改局部用 <code>edit</code>。</p>
+      <p><img src="/assets/posts/video-agent-loop/canvas-write-edit-v2.svg?v=20260821-2" alt="内置 Agent 通过 write 和 edit 修改项目语义：Client Runner 把操作交给对应项目文档，项目变化后时间线与画布自然更新，结果再回到 ToolLoop"></p>
+      <p><code>write</code> / <code>edit</code> 都指向明确的项目路径。Client Runner 根据目标把操作交给时间线、文档或可编辑素材，再写回同一份项目事实。界面没有一条“专供 Agent”的旁路；它只是像面对人的编辑一样，呈现项目变化。</p>
+      <p>于是完整反馈是：Agent 读取项目，做出语义修改，画布和时间线更新，结果回到 ToolLoop，Agent 再读取新的现场。<strong>画布是项目状态的可视结果，不是 Agent 的操作接口。</strong></p>
 
-      <h3>任务状态还不是 Agent 的新判断</h3>
-      <p>“第七张图片已经完成”只是机器状态。Agent 需要看到的是：这一批素材完成了多少、得到哪些可用产物、原来的创作目标是否仍然需要它们。</p>
-      <p>Monitor 不替 Agent 做决定。它把同一批任务的最新变化整理成一次新的感知，送进 Inbox，唤醒下一次 Run。模型醒来以后还要重新读取项目：如果开场已经被剪短，就针对现在的时间线作判断，而不是把几十秒前的安排重新覆盖回来。</p>
-      <p>Clock 解决的是另一类等待：不是“Task 完成时通知我”，而是“未来某个时间让我再检查一次”。到点以后，Clock 把一条 reminder 送入 Inbox，走相同的恢复入口。它是持久唤醒，不是让进程 <code>sleep</code>。</p>
-      <p>这和 Coding Agent 处理长命令有相似之处。Codex 一类工具通常返回一个后台执行会话，Agent 稍后再 wait 或读取输出；Claude Code 的后台 Bash 会立即返回 task ID，把输出写入文件，并在完成后产生任务通知，它的 Monitor 还能持续把监控事件送回当前 Session。</p>
-      <p>它们的共同结构都是：先取得一个可以追踪的身份，结果稍后再进入上下文。</p>
-      <p>但视频任务不能只照搬后台进程模型。一个生成任务可能跨越 Task Worker、第三方模型供应商和 Artifact 存储；浏览器和 Agent 进程都可能在它完成前消失。StarCut 因此把 Task 作为持续存在的业务事实，把通知降级为加速发现的提示，再用 Monitor 和恢复检查接住丢消息与重启。</p>
+      <h2>七、外部 Agent 怎样控制同一块画布</h2>
+      <p>StarCut 选择浏览器，是因为获客更直接、链接更容易传播，也能让 Codex、Claude Code 等外部 Agent 进入同一个编辑现场。代价是播放、预览和渲染仍然依赖一个真实在线的 Editor。</p>
+      <p><img src="/assets/posts/video-agent-loop/client-canvas-sequence-v2.svg?v=20260821-2" alt="内置 Agent、MCP 和未来 CLI 通过统一 Project API 复用同一套画布能力，现场命令只交给一个在线 Editor"></p>
+      <p>内置 Agent 从自己的 ToolLoop 进入，Codex 等外部 Agent 当前通过 MCP 进入，未来 CLI 也只是另一种适配器。下一步的方向，是把真正的产品边界提升为统一 Project API：一种能力只定义一次，入口只负责翻译。</p>
+      <p>项目读取和结构化编辑可以直接复用同一套语义操作；播放、预览、本地渲染等现场命令则交给在线 Editor。长连接负责发现现场，执行权保证多个窗口中只有一个真正行动，避免同一次编辑发生多遍。</p>
 
-      <h2>七、回头看，完整架构是怎样长出来的</h2>
+      <h2>八、回头看，完整架构是怎样长出来的</h2>
       <p>现在再看 StarCut 的 Video Agent Loop，它不是先画出一张复杂架构图，再给每个方框找用途。它是从一个最小 ToolLoop 开始，被视频创作的真实约束一层层推出来的：</p>
       <ol>
         <li>模型需要观察和行动，于是有了 ToolLoop。</li>
         <li>视频领域的方法不能全部塞进 Prompt，于是 Tool 与 Skill 分开。</li>
         <li>Tool 在不同位置执行，于是有了 Human、Server Runner、Client Runner 和 Task Worker。</li>
         <li>Tool Call 必须先于副作用留下事实，于是有了持久消息和统一的 <code>toolCallId</code> 结果路径。</li>
-        <li>浏览器是实际编辑现场，外部 Agent 又需要进入，于是 MCP、CLI 和内置 Agent 必须向统一 API 收敛。</li>
-        <li>现场能力不能被多个窗口重复执行，于是有了长连接和 Client Lease。</li>
         <li>视频任务比一次 Run 活得久，于是有了 Inbox、Monitor、Clock 和可恢复 Session。</li>
+        <li><code>write</code> / <code>edit</code> 操作项目语义，画布只是同一项目变化后的可视结果。</li>
+        <li>外部 Agent 也要进入这块画布，于是 MCP、CLI 和内置 Agent 必须向统一 API 收敛。</li>
+        <li>现场能力不能被多个窗口重复执行，于是有了长连接和 Client Lease。</li>
       </ol>
       <p>内循环解决“拿到当前结果以后，下一步做什么”；外循环解决“当前 Run 已经结束，新的世界变化怎样让 Agent 再次开始”。Agent 操纵画布，则是两层循环最终闭合的地方：模型产生语义操作，统一 API 改变项目，新的画布现场又成为下一步判断的依据。</p>
       <p>DeepSeek Harness 能不能接住这套系统，也应该按这条边界判断。模型适配、Session Log、Inbox、Tool Pipeline 和基础 Agent Loop 越通用，越值得交给 Harness；视频项目语义、领域 Tool、Task 与 Artifact、Monitor 的任务认知和 Editor 执行权，仍然应该由 StarCut 定义。</p>

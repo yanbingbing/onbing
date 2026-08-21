@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="850" viewBox="0 0 1800 850" role="img" aria-labelledby="title desc">
+  <title id="title">Clock 为 Session 安排一次持久的未来唤醒</title>
+  <desc id="desc">Run A 设置带有时间和复查说明的闹钟后结束。闹钟独立保存，到点后提醒进入 Inbox，Run B 重新读取真实状态并继续。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
+    <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
+    <marker id="violet" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
+    <marker id="green" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.step{font-size:15px;font-weight:700;letter-spacing:1px}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:17px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
+  </defs>
+  <rect width="1800" height="850" fill="url(#bg)"/>
+  <text x="900" y="60" text-anchor="middle" class="h">Clock：没有新事件，也能在未来醒来</text>
+  <text x="900" y="100" text-anchor="middle" class="sub">它不是让进程 sleep，而是给 Session 留下一只可以恢复的闹钟</text>
+
+  <g class="box">
+    <rect x="75" y="190" width="300" height="330" rx="28" fill="#102e43" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="420" y="190" width="300" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="765" y="190" width="270" height="330" rx="28" fill="#172a3d" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="1080" y="190" width="300" height="330" rx="28" fill="#15342f" stroke="#34d399" stroke-width="2"/>
+    <rect x="1425" y="190" width="300" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+  </g>
+
+  <text x="115" y="232" class="step" fill="#67e8f9">RUN A</text>
+  <text x="225" y="282" text-anchor="middle" class="t">预约未来复查</text>
+  <rect x="115" y="320" width="220" height="112" rx="18" fill="#12384a"/>
+  <text x="225" y="356" text-anchor="middle" class="p">10 分钟后</text>
+  <text x="225" y="389" text-anchor="middle" class="m">检查整批视频是否完成</text>
+  <text x="225" y="472" text-anchor="middle" class="m">设置以后，本次 Run 结束</text>
+
+  <text x="460" y="232" class="step" fill="#c4b5fd">CLOCK</text>
+  <text x="570" y="282" text-anchor="middle" class="t">持久保存闹钟</text>
+  <text x="570" y="326" text-anchor="middle" class="p">时间 + 复查说明</text>
+  <rect x="460" y="365" width="220" height="54" rx="16" fill="#30265a"/>
+  <text x="570" y="399" text-anchor="middle" class="p">set · update · cancel · list</text>
+  <text x="570" y="472" text-anchor="middle" class="m">闹钟属于 Session，不属于进程</text>
+
+  <text x="805" y="232" class="step" fill="#67e8f9">WAIT</text>
+  <text x="900" y="282" text-anchor="middle" class="t">时间继续走</text>
+  <text x="900" y="326" text-anchor="middle" class="p">没有模型进程在等待</text>
+  <text x="900" y="365" text-anchor="middle" class="m">浏览器可以关闭</text>
+  <text x="900" y="396" text-anchor="middle" class="m">Worker 可以重启</text>
+  <text x="900" y="472" text-anchor="middle" class="m">这不是 sleep</text>
+
+  <text x="1120" y="232" class="step" fill="#6ee7b7">DUE</text>
+  <text x="1230" y="282" text-anchor="middle" class="t">到点交付提醒</text>
+  <rect x="1120" y="320" width="220" height="112" rx="18" fill="#0f443d"/>
+  <text x="1230" y="356" text-anchor="middle" class="p">提醒进入 Inbox</text>
+  <text x="1230" y="389" text-anchor="middle" class="m">“现在检查整批视频”</text>
+  <text x="1230" y="472" text-anchor="middle" class="m">触发 Session 再次运行</text>
+
+  <text x="1465" y="232" class="step" fill="#c4b5fd">RUN B</text>
+  <text x="1575" y="282" text-anchor="middle" class="t">主动再看一眼</text>
+  <text x="1575" y="326" text-anchor="middle" class="p">重新读取 Task 与项目</text>
+  <text x="1575" y="365" text-anchor="middle" class="m">可能完成，也可能仍在生成</text>
+  <text x="1575" y="396" text-anchor="middle" class="m">依据现在的事实继续判断</text>
+  <text x="1575" y="472" text-anchor="middle" class="m">提醒不是任务结果</text>
+
+  <path d="M375 355H410" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M720 355H755" stroke="#c4b5fd" stroke-width="4" marker-end="url(#violet)"/>
+  <path d="M1035 355H1070" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M1380 355H1415" stroke="#6ee7b7" stroke-width="4" marker-end="url(#green)"/>
+
+  <g class="box">
+    <rect x="210" y="625" width="620" height="130" rx="26" fill="#15342f" stroke="#34d399"/>
+    <rect x="970" y="625" width="620" height="130" rx="26" fill="#282044" stroke="#a78bfa"/>
+  </g>
+  <text x="520" y="674" text-anchor="middle" class="t">Monitor 由变化触发</text>
+  <text x="520" y="714" text-anchor="middle" class="p">“外部任务刚刚发生了什么？”</text>
+  <text x="1280" y="674" text-anchor="middle" class="t">Clock 由时间触发</text>
+  <text x="1280" y="714" text-anchor="middle" class="p">“约定的时间到了，现在重新检查。”</text>
+</svg>

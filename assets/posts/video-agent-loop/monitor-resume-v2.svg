@@ -1,56 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
-  <title id="title">ask_user 与媒体长任务的恢复语义对比</title>
-  <desc id="desc">ask_user 保持 Tool Call 开放，用户回答作为唯一 Tool Result 恢复新 Run。媒体生成的 Tool Call 先收到 monitoring 结果，之后 Task 更新由 Monitor 转成隐藏上下文，再启动新 Run。Clock 则把未来时间转换为 Inbox 上下文。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900" viewBox="0 0 1800 900" role="img" aria-labelledby="title desc">
+  <title id="title">Monitor 把长任务的变化送回 Agent</title>
+  <desc id="desc">Run A 提交媒体 Task 并得到 monitoring 结果后可以结束。Task 独立运行并保存权威状态。Monitor 收到变化提示后重新读取状态、合并进展，经 Inbox 唤醒 Run B。</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
     <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
     <marker id="violet" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
     <marker id="green" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
-    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.band{font-size:25px;font-weight:700}.t{font-size:20px;font-weight:700;fill:#f8fafc}.p{font-size:16px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.step{font-size:15px;font-weight:700;letter-spacing:1px}.t{font-size:20px;font-weight:700;fill:#f8fafc}.p{font-size:16px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
   </defs>
-  <rect width="1800" height="1120" fill="url(#bg)"/>
-  <text x="900" y="58" text-anchor="middle" class="h">同样是“稍后回来”，结果语义并不相同</text>
-  <text x="900" y="96" text-anchor="middle" class="sub">一个 Tool Call 只能有一个结果；Monitor 解决的是结果之后的新世界</text>
+  <rect width="1800" height="900" fill="url(#bg)"/>
+  <text x="900" y="60" text-anchor="middle" class="h">Monitor：任务变了，Agent 再判断</text>
+  <text x="900" y="100" text-anchor="middle" class="sub">模型进程不等生成完成；Task 持续存在，Monitor 把变化变成下一次感知</text>
 
-  <rect x="70" y="145" width="1660" height="330" rx="32" fill="#201b31" stroke="#f472b6"/>
-  <text x="110" y="192" class="band" fill="#fbcfe8">ask_user · 原 Tool Call 仍然开放</text>
   <g class="box">
-    <rect x="125" y="245" width="275" height="120" rx="22" fill="#103249" stroke="#38bdf8"/>
-    <rect x="500" y="245" width="275" height="120" rx="22" fill="#34283c" stroke="#f472b6"/>
-    <rect x="875" y="245" width="275" height="120" rx="22" fill="#15342f" stroke="#34d399"/>
-    <rect x="1250" y="245" width="350" height="120" rx="22" fill="#282044" stroke="#a78bfa"/>
+    <rect x="55" y="190" width="250" height="300" rx="28" fill="#102e43" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="345" y="190" width="250" height="300" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="635" y="190" width="250" height="300" rx="28" fill="#15342f" stroke="#34d399" stroke-width="2"/>
+    <rect x="925" y="190" width="250" height="300" rx="28" fill="#172a3d" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="1215" y="190" width="250" height="300" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="1505" y="190" width="240" height="300" rx="28" fill="#102e43" stroke="#38bdf8" stroke-width="2"/>
   </g>
-  <text x="262" y="284" text-anchor="middle" class="t">Run A 发出问题</text><text x="262" y="318" text-anchor="middle" class="p">ask_user 没有 execute</text><text x="262" y="346" text-anchor="middle" class="m">保存开放调用，然后结束</text>
-  <text x="637" y="284" text-anchor="middle" class="t">等待用户</text><text x="637" y="318" text-anchor="middle" class="p">问题一直显示在 Editor</text><text x="637" y="346" text-anchor="middle" class="m">旧进程不需要存活</text>
-  <text x="1012" y="284" text-anchor="middle" class="t">回答进入 Inbox</text><text x="1012" y="318" text-anchor="middle" class="p">tool_result + toolCallId</text><text x="1012" y="346" text-anchor="middle" class="m">这是原调用唯一的结果</text>
-  <text x="1425" y="284" text-anchor="middle" class="t">Run B 恢复</text><text x="1425" y="318" text-anchor="middle" class="p">历史中的调用变为 output-available</text><text x="1425" y="346" text-anchor="middle" class="m">模型从回答继续判断</text>
-  <path d="M400 305H490" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/><path d="M775 305H865" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#green)"/><path d="M1150 305H1240" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/>
-  <text x="900" y="425" text-anchor="middle" class="m">严格等待：回答回来之前，Tool Call 没有 Result</text>
 
-  <rect x="70" y="520" width="1660" height="470" rx="32" fill="#101d2d" stroke="#a78bfa" stroke-width="2"/>
-  <text x="110" y="568" class="band" fill="#ddd6fe">图片 / 视频生成 · 原 Tool Call 已经返回 monitoring</text>
+  <text x="90" y="232" class="step" fill="#67e8f9">RUN A</text>
+  <text x="180" y="282" text-anchor="middle" class="t">提交媒体生成</text>
+  <text x="180" y="326" text-anchor="middle" class="p">图片 · 视频 · 语音</text>
+  <rect x="90" y="365" width="180" height="54" rx="16" fill="#12384a"/>
+  <text x="180" y="399" text-anchor="middle" class="p">Result: monitoring</text>
+  <text x="180" y="458" text-anchor="middle" class="m">原 Tool Call 到此完成</text>
+
+  <text x="380" y="232" class="step" fill="#c4b5fd">TASK</text>
+  <text x="470" y="282" text-anchor="middle" class="t">独立运行</text>
+  <text x="470" y="326" text-anchor="middle" class="p">Worker 调用模型供应商</text>
+  <text x="470" y="365" text-anchor="middle" class="m">Run A 可以结束</text>
+  <text x="470" y="396" text-anchor="middle" class="m">浏览器也可以关闭</text>
+  <text x="470" y="458" text-anchor="middle" class="m">进程不是任务本身</text>
+
+  <text x="670" y="232" class="step" fill="#6ee7b7">STATE</text>
+  <text x="760" y="282" text-anchor="middle" class="t">先保存事实</text>
+  <text x="760" y="326" text-anchor="middle" class="p">进度 · 状态 · 产物</text>
+  <rect x="675" y="365" width="170" height="54" rx="16" fill="#0f443d"/>
+  <text x="760" y="399" text-anchor="middle" class="p">权威 Task 记录</text>
+  <text x="760" y="458" text-anchor="middle" class="m">重启后仍然存在</text>
+
+  <text x="960" y="232" class="step" fill="#67e8f9">SIGNAL</text>
+  <text x="1050" y="282" text-anchor="middle" class="t">再发变化提示</text>
+  <text x="1050" y="326" text-anchor="middle" class="p">TaskChanged</text>
+  <text x="1050" y="365" text-anchor="middle" class="m">可以重复、迟到或丢失</text>
+  <text x="1050" y="396" text-anchor="middle" class="m">只负责尽快叫醒 Monitor</text>
+  <text x="1050" y="458" text-anchor="middle" class="m">通知不是事实</text>
+
+  <text x="1250" y="232" class="step" fill="#c4b5fd">MONITOR</text>
+  <text x="1340" y="282" text-anchor="middle" class="t">重新读取 Task</text>
+  <text x="1340" y="326" text-anchor="middle" class="p">合并同批任务的新进展</text>
+  <text x="1340" y="365" text-anchor="middle" class="m">只保留最新版本</text>
+  <text x="1340" y="396" text-anchor="middle" class="m">整理成一次新感知</text>
+  <text x="1340" y="458" text-anchor="middle" class="m">不生成，也不替模型决定</text>
+
+  <text x="1540" y="232" class="step" fill="#67e8f9">RUN B</text>
+  <text x="1625" y="282" text-anchor="middle" class="t">从新世界继续</text>
+  <text x="1625" y="326" text-anchor="middle" class="p">感知先进入 Inbox</text>
+  <text x="1625" y="365" text-anchor="middle" class="m">重新读取当前项目</text>
+  <text x="1625" y="396" text-anchor="middle" class="m">评估产物是否仍然适用</text>
+  <text x="1625" y="458" text-anchor="middle" class="m">形成下一步创作判断</text>
+
+  <path d="M305 340H335" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M595 340H625" stroke="#c4b5fd" stroke-width="4" marker-end="url(#violet)"/>
+  <path d="M885 340H915" stroke="#6ee7b7" stroke-width="4" marker-end="url(#green)"/>
+  <path d="M1175 340H1205" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M1465 340H1495" stroke="#c4b5fd" stroke-width="4" marker-end="url(#violet)"/>
+
   <g class="box">
-    <rect x="105" y="625" width="250" height="125" rx="22" fill="#103249" stroke="#38bdf8"/>
-    <rect x="425" y="625" width="260" height="125" rx="22" fill="#282044" stroke="#a78bfa"/>
-    <rect x="755" y="625" width="260" height="125" rx="22" fill="#15342f" stroke="#34d399"/>
-    <rect x="1085" y="625" width="260" height="125" rx="22" fill="#282044" stroke="#a78bfa"/>
-    <rect x="1415" y="625" width="280" height="125" rx="22" fill="#102e43" stroke="#38bdf8"/>
+    <rect x="145" y="620" width="450" height="140" rx="26" fill="#15342f" stroke="#34d399"/>
+    <rect x="675" y="620" width="450" height="140" rx="26" fill="#172a3d" stroke="#38bdf8"/>
+    <rect x="1205" y="620" width="450" height="140" rx="26" fill="#282044" stroke="#a78bfa"/>
   </g>
-  <text x="230" y="664" text-anchor="middle" class="t">Run A 提交 Task</text><text x="230" y="698" text-anchor="middle" class="p">先建立 WaitPort</text><text x="230" y="726" text-anchor="middle" class="m">再交给 Task Worker</text>
-  <text x="555" y="664" text-anchor="middle" class="t">立即返回</text><text x="555" y="698" text-anchor="middle" class="p">status: monitoring</text><text x="555" y="726" text-anchor="middle" class="m">原 Tool Call 已经完成</text>
-  <text x="885" y="664" text-anchor="middle" class="t">Task 独立运行</text><text x="885" y="698" text-anchor="middle" class="p">DB 保存权威状态与版本</text><text x="885" y="726" text-anchor="middle" class="m">通知只负责加速发现</text>
-  <text x="1215" y="664" text-anchor="middle" class="t">Monitor</text><text x="1215" y="698" text-anchor="middle" class="p">Task 更新 → 隐藏上下文</text><text x="1215" y="726" text-anchor="middle" class="m">同一 Task 只保留最新版本</text>
-  <text x="1555" y="664" text-anchor="middle" class="t">Run B 恢复</text><text x="1555" y="698" text-anchor="middle" class="p">读取当前项目与新产物</text><text x="1555" y="726" text-anchor="middle" class="m">继续创作，而非补写第二个 Result</text>
-  <path d="M355 687H415" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/><path d="M685 687H745" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/><path d="M1015 687H1075" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#green)"/><path d="M1345 687H1405" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/>
+  <text x="370" y="667" text-anchor="middle" class="t">Task 是事实</text>
+  <text x="370" y="708" text-anchor="middle" class="p">完成没有、产物在哪里，以持久状态为准</text>
+  <text x="900" y="667" text-anchor="middle" class="t">Signal 是提示</text>
+  <text x="900" y="708" text-anchor="middle" class="p">让变化更快被发现，不能承载唯一结果</text>
+  <text x="1430" y="667" text-anchor="middle" class="t">Monitor 是翻译层</text>
+  <text x="1430" y="708" text-anchor="middle" class="p">把任务变化翻译成 Agent 能重新判断的上下文</text>
 
-  <rect x="180" y="825" width="620" height="105" rx="22" fill="#15342f" stroke="#34d399"/>
-  <text x="490" y="865" text-anchor="middle" class="t">Monitor 回答：外部世界现在发生了什么</text>
-  <text x="490" y="899" text-anchor="middle" class="p">不执行 Task，不复制 Task 表，也不替模型决定下一步</text>
-  <rect x="1000" y="825" width="620" height="105" rx="22" fill="#282044" stroke="#a78bfa"/>
-  <text x="1310" y="865" text-anchor="middle" class="t">Clock 回答：未来什么时候重新看一眼</text>
-  <text x="1310" y="899" text-anchor="middle" class="p">到点后把 reminder 写进 Inbox；它是唤醒，不是 sleep</text>
-
-  <rect x="220" y="1030" width="1360" height="60" rx="19" fill="#171e2e" stroke="#475569"/>
-  <text x="900" y="1067" text-anchor="middle" class="p">编码 Agent 常跟踪一个后台进程；Video Agent 跟踪的是跨 Worker、供应商和浏览器的领域 Task</text>
+  <rect x="260" y="810" width="1280" height="58" rx="18" fill="#171e2e" stroke="#475569"/>
+  <text x="900" y="847" text-anchor="middle" class="p">原 Tool Call 已经得到 monitoring；成片是后来发生的新事实，不是它的第二个 Result</text>
 </svg>

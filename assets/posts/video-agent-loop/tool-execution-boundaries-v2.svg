@@ -26,7 +26,7 @@
   </g>
   <text x="255" y="435" text-anchor="middle" class="t">Human</text>
   <text x="255" y="474" text-anchor="middle" class="p">ask_user</text>
-  <text x="255" y="512" text-anchor="middle" class="m">没有 execute，当前 Run 结束</text>
+  <text x="255" y="512" text-anchor="middle" class="m">问题保存后，当前 Run 结束</text>
   <text x="255" y="541" text-anchor="middle" class="m">用户回答原 Tool Call</text>
   <rect x="150" y="575" width="210" height="42" rx="13" fill="#4a2d42"/><text x="255" y="602" text-anchor="middle" class="tag" fill="#fbcfe8">唯一 Result</text>
 

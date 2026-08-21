@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="850" viewBox="0 0 1800 850" role="img" aria-labelledby="title desc">
+  <title id="title">ask_user 让一次任务跨越两次 Run</title>
+  <desc id="desc">Run A 保存一个需要用户决定的问题后结束。Editor 显示问题，用户回答。答案凭同一问题身份进入 Inbox，Run B 从持久历史恢复并继续创作。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
+    <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
+    <marker id="violet" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
+    <marker id="green" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.step{font-size:15px;font-weight:700;letter-spacing:1px}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:17px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
+  </defs>
+  <rect width="1800" height="850" fill="url(#bg)"/>
+  <text x="900" y="60" text-anchor="middle" class="h">问完以后，模型进程可以退出</text>
+  <text x="900" y="100" text-anchor="middle" class="sub">ask_user 保存的是一个待回答的问题；人的答案让下一次 Run 从这里继续</text>
+
+  <g class="box">
+    <rect x="55" y="190" width="300" height="330" rx="28" fill="#102e43" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="400" y="190" width="300" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="745" y="190" width="300" height="330" rx="28" fill="#34283c" stroke="#f472b6" stroke-width="2"/>
+    <rect x="1090" y="190" width="300" height="330" rx="28" fill="#15342f" stroke="#34d399" stroke-width="2"/>
+    <rect x="1435" y="190" width="310" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+  </g>
+
+  <text x="95" y="232" class="step" fill="#67e8f9">RUN A</text>
+  <text x="205" y="282" text-anchor="middle" class="t">Agent 需要人的决定</text>
+  <rect x="95" y="320" width="220" height="100" rx="18" fill="#12384a"/>
+  <text x="205" y="356" text-anchor="middle" class="p">成片比例？</text>
+  <text x="205" y="391" text-anchor="middle" class="m">16:9 横屏 / 9:16 竖屏</text>
+  <text x="205" y="472" text-anchor="middle" class="m">形成一个 ask_user 问题</text>
+
+  <text x="440" y="232" class="step" fill="#c4b5fd">SESSION</text>
+  <text x="550" y="282" text-anchor="middle" class="t">保存待回答的问题</text>
+  <rect x="440" y="320" width="220" height="100" rx="18" fill="#30265a"/>
+  <text x="550" y="356" text-anchor="middle" class="p">问题 + 问题标识</text>
+  <text x="550" y="391" text-anchor="middle" class="m">成为持久历史的一部分</text>
+  <text x="550" y="472" text-anchor="middle" class="m">Run A 结束，释放运行资源</text>
+
+  <text x="785" y="232" class="step" fill="#f9a8d4">EDITOR</text>
+  <text x="895" y="282" text-anchor="middle" class="t">用户看见并回答</text>
+  <rect x="785" y="320" width="220" height="100" rx="18" fill="#4a2d42"/>
+  <text x="895" y="356" text-anchor="middle" class="p">用户选择</text>
+  <text x="895" y="391" text-anchor="middle" class="m">9:16 竖屏</text>
+  <text x="895" y="472" text-anchor="middle" class="m">等待期间没有模型进程</text>
+
+  <text x="1130" y="232" class="step" fill="#6ee7b7">INBOX</text>
+  <text x="1240" y="282" text-anchor="middle" class="t">答案回到原问题</text>
+  <rect x="1130" y="320" width="220" height="100" rx="18" fill="#0f443d"/>
+  <text x="1240" y="356" text-anchor="middle" class="p">答案 + 同一问题标识</text>
+  <text x="1240" y="391" text-anchor="middle" class="m">问题从等待变成已回答</text>
+  <text x="1240" y="472" text-anchor="middle" class="m">触发 Session 再次运行</text>
+
+  <text x="1475" y="232" class="step" fill="#c4b5fd">RUN B</text>
+  <text x="1590" y="282" text-anchor="middle" class="t">从答案继续创作</text>
+  <rect x="1475" y="320" width="230" height="100" rx="18" fill="#30265a"/>
+  <text x="1590" y="356" text-anchor="middle" class="p">恢复历史与新答案</text>
+  <text x="1590" y="391" text-anchor="middle" class="m">继续竖屏分镜与剪辑</text>
+  <text x="1590" y="472" text-anchor="middle" class="m">这是一个新的模型进程</text>
+
+  <path d="M355 355H390" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M700 355H735" stroke="#c4b5fd" stroke-width="4" marker-end="url(#violet)"/>
+  <path d="M1045 355H1080" stroke="#f472b6" stroke-width="4" marker-end="url(#violet)"/>
+  <path d="M1390 355H1425" stroke="#6ee7b7" stroke-width="4" marker-end="url(#green)"/>
+
+  <rect x="245" y="625" width="1310" height="130" rx="28" fill="#171e2e" stroke="#475569"/>
+  <text x="900" y="675" text-anchor="middle" class="t">跨过去的是 Run，留下来的是 Session</text>
+  <text x="900" y="716" text-anchor="middle" class="p">旧进程可以消失；只要问题、答案和它们之间的对应关系没有丢，任务就能继续</text>
+</svg>

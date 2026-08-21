@@ -1224,14 +1224,14 @@ a:focus-visible {
     gap: 30px;
   }
 
-  .post-body--diagram-scroll > p:has(> img[src$=".svg"]:only-child) {
+  .post-body--diagram-scroll > p:has(> img[src*=".svg"]:only-child) {
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scrollbar-width: thin;
     background: var(--soft);
   }
 
-  .post-body--diagram-scroll > p:has(> img[src$=".svg"]:only-child)::after {
+  .post-body--diagram-scroll > p:has(> img[src*=".svg"]:only-child)::after {
     position: sticky;
     left: 0;
     display: block;
@@ -1243,7 +1243,7 @@ a:focus-visible {
     content: "左右滑动查看完整图";
   }
 
-  .post-body--diagram-scroll > p:has(> img[src$=".svg"]:only-child) img {
+  .post-body--diagram-scroll > p:has(> img[src*=".svg"]:only-child) img {
     width: 820px;
     max-width: none;
   }
