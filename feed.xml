@@ -22,11 +22,11 @@
       <description>StarCut 如何用纯 TypeScript、WebCodecs、统一 GOP Flight、多级缓存与预测调度，在浏览器中实现丝滑的 Play、Seek、Scrub 和时间线缩略图。</description>
     </item>
     <item>
-      <title>Video Agent Loop：StarCut 的硬核实践，DeepSeek Harness 能否满足视频场景？</title>
+      <title>Video Agent Loop：StarCut 的双循环架构，DeepSeek Harness 能接住吗？</title>
       <link>https://onbing.com/blog/video-agent-loop</link>
       <guid isPermaLink="true">https://onbing.com/blog/video-agent-loop</guid>
       <pubDate>Tue, 18 Aug 2026 00:00:00 +0800</pubDate>
-      <description>StarCut 如何通过内外双循环、Inbox、Monitor、浏览器执行权、SSE/WS 与 MCP，让 AI 在持续变化的视频工程中感知并行动。</description>
+      <description>从最小 ToolLoop 出发，沿着双循环、工具执行、外部 Agent 和媒体长任务逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。</description>
     </item>
     <item>
       <title>Edit Video as Code：将视频工程映射为 Coding Agent 可读写的虚拟文件视图</title>

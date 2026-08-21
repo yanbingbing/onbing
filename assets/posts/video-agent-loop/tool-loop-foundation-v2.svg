@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">最小 Tool Loop 以及 Step、Run、Session 的关系</title>
+  <desc id="desc">模型在一个 Step 中决定回答或调用工具。工具结果返回后进入下一个 Step。多个 Step 构成一次有限的 Run，多次可恢复的 Run 构成持续 Session。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#17132a"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#000" flood-opacity=".3"/></filter>
+    <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
+    <marker id="violet" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
+    <marker id="green" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:38px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:16px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <text x="800" y="60" text-anchor="middle" class="h">先把 Agent 还原成一个最小 Tool Loop</text>
+  <text x="800" y="98" text-anchor="middle" class="sub">模型不需要一个玄学名字：判断下一步，调用工具，拿到结果，再判断</text>
+
+  <rect x="80" y="145" width="1440" height="420" rx="32" fill="#101b2d" stroke="#475569"/>
+  <text x="120" y="190" class="t">一个 Step：一次模型请求</text>
+  <g class="box">
+    <rect x="125" y="245" width="290" height="130" rx="24" fill="#103249" stroke="#38bdf8"/>
+    <rect x="555" y="225" width="315" height="170" rx="26" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="1005" y="245" width="290" height="130" rx="24" fill="#15342f" stroke="#34d399"/>
+  </g>
+  <text x="270" y="286" text-anchor="middle" class="t">模型判断</text>
+  <text x="270" y="321" text-anchor="middle" class="p">根据当前上下文决定下一步</text>
+  <text x="270" y="349" text-anchor="middle" class="m">输出文字，或者形成 Tool Call</text>
+  <text x="712" y="272" text-anchor="middle" class="t">Tool Call</text>
+  <text x="712" y="307" text-anchor="middle" class="p">工具名 + 结构化参数</text>
+  <path d="M625 340H800" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="712" y="370" text-anchor="middle" class="m">Harness 校验、执行并收集结果</text>
+  <text x="1150" y="286" text-anchor="middle" class="t">Tool Result</text>
+  <text x="1150" y="321" text-anchor="middle" class="p">把外部事实放回上下文</text>
+  <text x="1150" y="349" text-anchor="middle" class="m">模型不再靠猜，进入下一个 Step</text>
+  <path d="M415 310H545" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+  <path d="M870 310H995" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/>
+  <path d="M1150 375C1150 500 270 500 270 385" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#green)"/>
+  <rect x="1305" y="245" width="165" height="130" rx="24" fill="#1d2939" stroke="#64748b"/>
+  <text x="1387" y="287" text-anchor="middle" class="t">直接回答</text>
+  <text x="1387" y="322" text-anchor="middle" class="p">本次 Run 结束</text>
+  <path d="M415 270C805 160 1190 185 1295 270" stroke="#64748b" stroke-width="3" fill="none" marker-end="url(#cyan)"/>
+
+  <text x="80" y="627" class="sub">把三个词分清，后面的架构才不会混在一起</text>
+  <g class="box">
+    <rect x="80" y="665" width="420" height="150" rx="24" fill="#102e43" stroke="#38bdf8"/>
+    <rect x="590" y="645" width="420" height="190" rx="26" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="1100" y="665" width="420" height="150" rx="24" fill="#15342f" stroke="#34d399"/>
+  </g>
+  <text x="290" y="710" text-anchor="middle" class="t">Step</text>
+  <text x="290" y="746" text-anchor="middle" class="p">一次模型请求，以及它发出的工具调用</text>
+  <text x="290" y="778" text-anchor="middle" class="m">最小思考单位</text>
+  <text x="800" y="692" text-anchor="middle" class="t">Run · 单次循环</text>
+  <text x="800" y="729" text-anchor="middle" class="p">同一进程里的多个 Step</text>
+  <text x="800" y="761" text-anchor="middle" class="p">组装上下文、持续输出、最终持久化</text>
+  <text x="800" y="799" text-anchor="middle" class="m">有明确停止边界，不要求永久存活</text>
+  <text x="1310" y="710" text-anchor="middle" class="t">Session / Thread</text>
+  <text x="1310" y="746" text-anchor="middle" class="p">跨越多次 Run 的持续任务</text>
+  <text x="1310" y="778" text-anchor="middle" class="m">依靠历史与 Inbox 恢复，而不是旧进程</text>
+  <path d="M500 740H580" stroke="#67e8f9" stroke-width="3" fill="none" marker-end="url(#cyan)"/>
+  <path d="M1010 740H1090" stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#green)"/>
+</svg>

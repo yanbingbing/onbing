@@ -862,6 +862,14 @@ a:focus-visible {
   letter-spacing: -0.035em;
 }
 
+.post-title-line {
+  display: block;
+}
+
+.post-title-nowrap {
+  white-space: nowrap;
+}
+
 .post-body h2 {
   margin: 2.2em 0 0.75em;
   padding-bottom: 0.35em;
@@ -1198,6 +1206,11 @@ a:focus-visible {
     font-size: 24px;
   }
 
+  .post-title-mobile-line {
+    display: block;
+    white-space: nowrap;
+  }
+
   .deck-header {
     width: calc(100% - 8px);
     margin-bottom: 34px;
@@ -1211,6 +1224,29 @@ a:focus-visible {
     gap: 30px;
   }
 
+  .post-body--diagram-scroll > p:has(> img[src$=".svg"]:only-child) {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    background: var(--soft);
+  }
+
+  .post-body--diagram-scroll > p:has(> img[src$=".svg"]:only-child)::after {
+    position: sticky;
+    left: 0;
+    display: block;
+    width: calc(100vw - 20px);
+    padding: 6px 0 8px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    content: "左右滑动查看完整图";
+  }
+
+  .post-body--diagram-scroll > p:has(> img[src$=".svg"]:only-child) img {
+    width: 820px;
+    max-width: none;
+  }
 
   .site-footer {
     display: block;

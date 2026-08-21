@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080" role="img" aria-labelledby="title desc">
+  <title id="title">StarCut Video Agent Loop 的两个时间尺度</title>
+  <desc id="desc">内循环在一次 Run 中完成模型判断、工具调用和结果读取。Run 结束后，用户回答、Editor 结果、任务变化和 Clock 提醒进入 Inbox，外循环据此恢复新的 Run。两层循环由持久业务事实连接。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
+    <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
+    <marker id="violet" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.band{font-size:22px;font-weight:700}.t{font-size:20px;font-weight:700;fill:#f8fafc}.p{font-size:17px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
+  </defs>
+  <rect width="1800" height="1080" fill="url(#bg)"/>
+  <text x="900" y="58" text-anchor="middle" class="h">一项创作，两个时间尺度</text>
+  <text x="900" y="96" text-anchor="middle" class="sub">内循环完成当前判断，外循环在世界变化后重新开始判断</text>
+
+  <rect x="70" y="135" width="1660" height="330" rx="34" fill="#0e2130" stroke="#38bdf8" stroke-width="2"/>
+  <text x="110" y="180" class="band" fill="#a5f3fc">内循环 · 一次有限 Run</text>
+  <text x="1690" y="180" text-anchor="end" class="m">秒级 · 多个 Step · 同一个运行过程</text>
+  <g class="box">
+    <rect x="130" y="235" width="265" height="120" rx="22" fill="#103249" stroke="#38bdf8"/>
+    <rect x="485" y="235" width="265" height="120" rx="22" fill="#282044" stroke="#a78bfa"/>
+    <rect x="840" y="235" width="265" height="120" rx="22" fill="#102e43" stroke="#38bdf8"/>
+    <rect x="1195" y="235" width="265" height="120" rx="22" fill="#15342f" stroke="#34d399"/>
+  </g>
+  <text x="262" y="282" text-anchor="middle" class="t">组装当前上下文</text><text x="262" y="320" text-anchor="middle" class="m">历史 · 项目 · 新输入 · Skill</text>
+  <text x="617" y="282" text-anchor="middle" class="t">模型判断下一步</text><text x="617" y="320" text-anchor="middle" class="m">回答，或者形成 Tool Call</text>
+  <text x="972" y="282" text-anchor="middle" class="t">工具作用于世界</text><text x="972" y="320" text-anchor="middle" class="m">读取 · 编辑 · 询问 · 生成</text>
+  <text x="1327" y="282" text-anchor="middle" class="t">读取结果</text><text x="1327" y="320" text-anchor="middle" class="m">继续下一 Step，或者结束 Run</text>
+  <path d="M395 295H475" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+  <path d="M750 295H830" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/>
+  <path d="M1105 295H1185" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+  <path d="M1327 355C1327 420 617 420 617 365" stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#cyan)"/>
+  <text x="972" y="438" text-anchor="middle" class="m">流式输出服务体验；完整消息保存以后，Run 才算留下可恢复的事实</text>
+
+  <rect x="70" y="515" width="1660" height="405" rx="34" fill="#17172a" stroke="#a78bfa" stroke-width="2"/>
+  <text x="110" y="560" class="band" fill="#ddd6fe">外循环 · 跨越多次 Run 的持久 Session</text>
+  <text x="1690" y="560" text-anchor="end" class="m">分钟到小时 · 消息驱动恢复 · 不要求模型进程一直活着</text>
+
+  <g class="box">
+    <rect x="120" y="635" width="270" height="145" rx="24" fill="#282044" stroke="#a78bfa"/>
+    <rect x="500" y="610" width="390" height="195" rx="26" fill="#222237" stroke="#64748b"/>
+    <rect x="1000" y="635" width="270" height="145" rx="24" fill="#15342f" stroke="#34d399"/>
+    <rect x="1380" y="635" width="270" height="145" rx="24" fill="#103249" stroke="#38bdf8"/>
+  </g>
+  <text x="255" y="685" text-anchor="middle" class="t">Run 已经结束</text><text x="255" y="723" text-anchor="middle" class="p">进程与连接都可以离开</text><text x="255" y="752" text-anchor="middle" class="m">开放工作仍然存在</text>
+  <text x="695" y="655" text-anchor="middle" class="t">世界继续发生变化</text>
+  <rect x="545" y="684" width="135" height="42" rx="14" fill="#34283c"/><text x="612" y="711" text-anchor="middle" class="m">用户回答</text>
+  <rect x="710" y="684" width="135" height="42" rx="14" fill="#102e43"/><text x="777" y="711" text-anchor="middle" class="m">Editor 结果</text>
+  <rect x="545" y="743" width="135" height="42" rx="14" fill="#282044"/><text x="612" y="770" text-anchor="middle" class="m">任务变化</text>
+  <rect x="710" y="743" width="135" height="42" rx="14" fill="#15342f"/><text x="777" y="770" text-anchor="middle" class="m">Clock 提醒</text>
+  <text x="1135" y="685" text-anchor="middle" class="t">Inbox 汇集新输入</text><text x="1135" y="723" text-anchor="middle" class="p">结果先留下，再决定何时继续</text><text x="1135" y="752" text-anchor="middle" class="m">同一恢复入口，不绑定原进程</text>
+  <text x="1515" y="685" text-anchor="middle" class="t">恢复一个新 Run</text><text x="1515" y="723" text-anchor="middle" class="p">重新读取当前项目</text><text x="1515" y="752" text-anchor="middle" class="m">在新的现场里判断下一步</text>
+  <path d="M390 707H490" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/>
+  <path d="M890 707H990" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#violet)"/>
+  <path d="M1270 707H1370" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+  <text x="900" y="865" text-anchor="middle" class="p">外循环不是另一个永远运行的模型 Loop，而是让新事实重新触发内循环</text>
+
+  <rect x="150" y="970" width="1500" height="64" rx="20" fill="#111e2b" stroke="#475569"/>
+  <text x="900" y="1010" text-anchor="middle" class="p">持续存在的事实：对话历史 · 当前项目 · 后台任务 · Inbox　｜　短暂存在的执行者：模型进程 · Worker · 浏览器连接</text>
+</svg>

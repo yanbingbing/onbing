@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080" role="img" aria-labelledby="title desc">
+  <title id="title">内置 Agent 与外部 Agent 通过统一 API 控制画布</title>
+  <desc id="desc">StarCut 内置 Agent 从 ToolLoop 进入，Codex 等外部 Agent 从 MCP 或 CLI 进入。不同入口向统一 Project API 收敛；项目命令直接改变项目，播放、预览和渲染等现场命令交给在线 Editor。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
+    <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
+    <marker id="green" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.t{font-size:22px;font-weight:700;fill:#f8fafc}.p{font-size:17px;fill:#cbd5e1}.m{font-size:15px;fill:#94a3b8}.tag{font-size:15px;font-weight:700;fill:#07131f}.box{filter:url(#shadow)}</style>
+  </defs>
+  <rect width="1800" height="1080" fill="url(#bg)"/>
+  <text x="900" y="58" text-anchor="middle" class="h">控制画布的关键，不是入口，而是统一的项目语义</text>
+  <text x="900" y="96" text-anchor="middle" class="sub">内置 Agent、MCP 和 CLI 不应该长出三套编辑系统</text>
+
+  <g class="box">
+    <rect x="120" y="160" width="560" height="150" rx="28" fill="#103249" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="1120" y="160" width="560" height="150" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+  </g>
+  <text x="400" y="215" text-anchor="middle" class="t">StarCut 内置 Agent</text>
+  <text x="400" y="255" text-anchor="middle" class="p">从 Video Agent Loop 发出语义 Tool Call</text>
+  <text x="400" y="283" text-anchor="middle" class="m">理解创作目标，连续观察与行动</text>
+  <text x="1400" y="215" text-anchor="middle" class="t">Codex 等外部 Agent</text>
+  <text x="1400" y="255" text-anchor="middle" class="p">从自己的 Loop 调用 StarCut 能力</text>
+  <text x="1400" y="283" text-anchor="middle" class="m">不模拟鼠标，不依赖屏幕坐标</text>
+
+  <g class="box">
+    <rect x="205" y="390" width="390" height="125" rx="24" fill="#102e43" stroke="#38bdf8"/>
+    <rect x="1205" y="390" width="390" height="125" rx="24" fill="#31244f" stroke="#a78bfa"/>
+  </g>
+  <text x="400" y="438" text-anchor="middle" class="t">内置 Tool</text>
+  <text x="400" y="478" text-anchor="middle" class="p">StarCut 自己的调用入口</text>
+  <text x="1400" y="438" text-anchor="middle" class="t">MCP / CLI Adapter</text>
+  <text x="1400" y="478" text-anchor="middle" class="p">MCP 现在 · CLI 可以随后接入</text>
+  <path d="M400 310V380" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+  <path d="M1400 310V380" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+
+  <g class="box"><rect x="320" y="600" width="1160" height="250" rx="34" fill="#121d2c" stroke="#6ee7b7" stroke-width="3"/></g>
+  <rect x="755" y="625" width="290" height="34" rx="17" fill="#6ee7b7"/>
+  <text x="900" y="648" text-anchor="middle" class="tag">API 化方向</text>
+  <text x="900" y="706" text-anchor="middle" class="h">统一 Project API</text>
+  <text x="900" y="744" text-anchor="middle" class="sub">一种能力只定义一次，入口只负责翻译</text>
+  <rect x="430" y="780" width="390" height="48" rx="18" fill="#103249"/>
+  <rect x="980" y="780" width="390" height="48" rx="18" fill="#282044"/>
+  <text x="625" y="811" text-anchor="middle" class="p">项目命令：读取 · 编辑 · 生成</text>
+  <text x="1175" y="811" text-anchor="middle" class="p">现场命令：播放 · 预览 · 渲染</text>
+  <path d="M400 515C400 565 610 550 690 590" stroke="#67e8f9" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+  <path d="M1400 515C1400 565 1190 550 1110 590" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+
+  <g class="box">
+    <rect x="210" y="930" width="560" height="100" rx="24" fill="#15342f" stroke="#34d399"/>
+    <rect x="1030" y="930" width="560" height="100" rx="24" fill="#282044" stroke="#a78bfa"/>
+  </g>
+  <text x="490" y="971" text-anchor="middle" class="t">项目改变，画布呈现结果</text>
+  <text x="490" y="1004" text-anchor="middle" class="m">人和 Agent 始终面对同一个创作现场</text>
+  <text x="1310" y="971" text-anchor="middle" class="t">在线 Editor 完成现场能力</text>
+  <text x="1310" y="1004" text-anchor="middle" class="m">长连接只负责发现现场与交接执行权</text>
+  <path d="M625 850V920" stroke="#6ee7b7" stroke-width="4" fill="none" marker-end="url(#green)"/>
+  <path d="M1175 850V920" stroke="#c4b5fd" stroke-width="4" fill="none" marker-end="url(#cyan)"/>
+</svg>
