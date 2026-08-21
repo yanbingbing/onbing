@@ -146,52 +146,146 @@ a:focus-visible {
   color: var(--text);
 }
 
-.social-list {
+.social-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  margin: 32px 0;
-  padding: 0;
-  list-style: none;
+  margin: 34px 0 0;
 }
 
-.social-list a {
+.social-card {
+  position: relative;
   display: flex;
-  align-items: baseline;
+  min-height: 196px;
+  overflow: hidden;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 18px;
-  padding: 13px 15px;
+  gap: 24px;
+  padding: 24px;
   color: var(--text);
   text-decoration: none;
   border: 1px solid var(--border);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-.social-list a:hover {
+.social-card:hover {
   border-color: var(--text);
+  box-shadow: 0 14px 34px rgb(31 35 40 / 9%);
+  transform: translateY(-2px);
 }
 
-.social-list span {
-  color: var(--muted);
+.social-card-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.social-card-platform {
   font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.social-list strong {
-  font-size: 15px;
+.social-card-copy > strong {
+  margin: 5px 0 4px;
+  font-size: 26px;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
 }
 
-.github-activity {
+.social-card-copy > small {
+  max-width: 250px;
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.55;
+  opacity: 0.68;
+}
+
+.social-card--x {
+  color: #ffffff;
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 7%) 0 1px, transparent 1px 28px),
+    #111111;
+  background-size: 28px 28px;
+  border-color: #111111;
+}
+
+.social-card--x:hover {
+  border-color: #111111;
+}
+
+.x-topic-map {
+  position: absolute;
+  top: 24px;
+  right: 22px;
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  color: rgb(255 255 255 / 34%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.x-topic-map::after {
+  display: block;
+  width: 78px;
+  height: 78px;
+  margin-top: 5px;
+  background:
+    linear-gradient(45deg, transparent 44%, #ffffff 45% 54%, transparent 55%),
+    linear-gradient(-45deg, transparent 44%, #ffffff 45% 54%, transparent 55%);
+  content: "";
+  opacity: 0.94;
+}
+
+.social-card--xiaohongshu {
+  background: #fff8f7;
+  border-color: #f0d8d6;
+}
+
+.social-card--xiaohongshu .social-card-platform {
+  color: #e32636;
+}
+
+.xiaohongshu-cover {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  display: flex;
+  width: 112px;
+  height: 128px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px;
+  color: #ffffff;
+  background: linear-gradient(155deg, #ff5a68, #d7192d);
+  box-shadow: -9px 9px 0 #f5dfdc;
+  transform: rotate(2deg);
+}
+
+.xiaohongshu-cover span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.xiaohongshu-cover strong {
+  font-size: 25px;
+  line-height: 1.05;
+}
+
+.social-card--github {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 138px minmax(0, 1fr);
   gap: 28px;
+  min-height: 0;
   padding: 22px;
-  color: var(--text);
-  text-decoration: none;
   background: var(--soft);
-  border: 1px solid var(--border);
-}
-
-.github-activity:hover {
-  border-color: var(--text);
 }
 
 .github-activity-copy {
@@ -200,9 +294,8 @@ a:focus-visible {
   justify-content: center;
 }
 
-.github-activity-copy > span {
+.github-activity-copy > .social-card-platform {
   color: var(--muted);
-  font-size: 13px;
 }
 
 .github-activity-copy strong {
@@ -753,11 +846,16 @@ a:focus-visible {
     font-size: 20px;
   }
 
-  .social-list {
+  .social-cards {
     grid-template-columns: 1fr;
   }
 
-  .github-activity {
+  .social-card {
+    min-height: 180px;
+    padding: 20px;
+  }
+
+  .social-card--github {
     grid-template-columns: 1fr;
     gap: 18px;
     padding: 18px;
