@@ -786,7 +786,7 @@ a:focus-visible {
 
 .post-item-cover {
   display: block;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--soft);
   border: 1px solid var(--border);
@@ -826,8 +826,13 @@ a:focus-visible {
 }
 
 .post-item p {
+  display: -webkit-box;
+  overflow: hidden;
   margin: 0;
   color: var(--muted);
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .post-body {
@@ -1167,6 +1172,10 @@ a:focus-visible {
   .post-item {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .post-item-cover {
+    aspect-ratio: 16 / 9;
   }
 
   .post-body h2 {
