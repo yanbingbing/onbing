@@ -31,7 +31,7 @@
     <rect x="1090" y="245" width="260" height="130" rx="22" fill="#30265a"/>
   </g>
   <text x="580" y="290" text-anchor="middle" class="t">持续的 Session</text>
-  <text x="580" y="326" text-anchor="middle" class="p">历史 · 租约 · 恢复</text>
+  <text x="580" y="326" text-anchor="middle" class="p">历史 · 运行协调 · 恢复</text>
   <text x="900" y="290" text-anchor="middle" class="t">Run 与 ToolLoop</text>
   <text x="900" y="326" text-anchor="middle" class="p">模型 · Step · Tool Pipeline</text>
   <text x="1220" y="290" text-anchor="middle" class="t">统一 Inbox</text>

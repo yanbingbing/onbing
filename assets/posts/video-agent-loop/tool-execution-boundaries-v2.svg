@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080" role="img" aria-labelledby="title desc">
   <title id="title">同一 Tool Call 协议连接四种执行边界</title>
-  <desc id="desc">模型形成的 Tool Call 先成为已提交消息，再依据执行策略交给人、Server Runner、Client Runner 或由 Server Runner 提交后台 Task。所有同步结果以 toolCallId 回到 Inbox；后台 Task 进入 Monitor。</desc>
+  <desc id="desc">模型形成的 Tool Call 先成为已提交消息，再依据执行策略交给人、Server Runner、Client Runner 或由 Server Runner 提交后台 Task。所有同步结果带着原调用身份回到 Inbox；后台 Task 的变化进入 Monitor。</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
@@ -15,7 +15,7 @@
 
   <g class="box"><rect x="520" y="145" width="760" height="135" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/></g>
   <text x="900" y="190" text-anchor="middle" class="t">Committed Tool Call</text>
-  <text x="900" y="226" text-anchor="middle" class="p">toolName + input + toolCallId</text>
+  <text x="900" y="226" text-anchor="middle" class="p">工具名 + 参数 + 调用身份</text>
   <text x="900" y="255" text-anchor="middle" class="m">先进入持久消息，再跨越执行边界</text>
 
   <g class="box">
@@ -46,8 +46,8 @@
 
   <text x="1545" y="435" text-anchor="middle" class="t">Task Worker</text>
   <text x="1545" y="474" text-anchor="middle" class="p">图片 · 视频 · 语音 · 转写</text>
-  <text x="1545" y="512" text-anchor="middle" class="m">由 Server Runner 先建立 WaitPort</text>
-  <text x="1545" y="541" text-anchor="middle" class="m">Task Worker 不认识 Session</text>
+  <text x="1545" y="512" text-anchor="middle" class="m">由 Server Runner 提交后台任务</text>
+  <text x="1545" y="541" text-anchor="middle" class="m">任务随后独立运行</text>
   <rect x="1440" y="575" width="210" height="42" rx="13" fill="#352b58"/><text x="1545" y="602" text-anchor="middle" class="tag" fill="#ddd6fe">Task → Monitor</text>
 
   <path d="M715 280C630 325 255 325 255 380" stroke="#f472b6" stroke-width="3" fill="none" marker-end="url(#violet)"/>
@@ -57,7 +57,7 @@
 
   <g class="box"><rect x="250" y="790" width="820" height="150" rx="28" fill="#15342f" stroke="#34d399" stroke-width="2"/></g>
   <text x="660" y="835" text-anchor="middle" class="t">统一返回面：Inbox</text>
-  <text x="660" y="874" text-anchor="middle" class="p">Tool Result 只用 toolCallId 找回原调用，不关心结果来自人、服务端还是浏览器</text>
+  <text x="660" y="874" text-anchor="middle" class="p">Tool Result 带着原调用身份回来，不关心结果来自人、服务端还是浏览器</text>
   <text x="660" y="908" text-anchor="middle" class="m">当前 Run 正在等待，就直接继续；已经结束，就启动新的 Run</text>
   <path d="M255 650C255 720 430 735 510 780" stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#green)"/>
   <path d="M685 675V780" stroke="#67e8f9" stroke-width="3" fill="none" marker-end="url(#cyan)"/>
@@ -70,5 +70,5 @@
   <path d="M1545 650C1545 720 1460 740 1415 780" stroke="#c4b5fd" stroke-width="3" fill="none" marker-end="url(#violet)"/>
 
   <rect x="270" y="985" width="1260" height="60" rx="19" fill="#171e2e" stroke="#475569"/>
-  <text x="900" y="1022" text-anchor="middle" class="p">MessageStream 让调用可见；执行策略、租约与凭证决定谁能执行</text>
+  <text x="900" y="1022" text-anchor="middle" class="p">消息流让调用可见；执行策略与当前执行权决定谁能行动</text>
 </svg>

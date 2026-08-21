@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Video Agent Loop：StarCut 的双循环架构，DeepSeek Harness 能接住吗？ | onbing</title>
-  <meta name="description" content="从最小 ToolLoop 出发，沿着双循环、工具执行、外部 Agent 和媒体长任务逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。">
+  <meta name="description" content="从最小 ToolLoop 出发，沿着双循环、执行边界、长任务与画布控制逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。">
   <meta name="author" content="onbing">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://onbing.com/blog/video-agent-loop">
@@ -14,27 +14,27 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="onbing">
   <meta property="og:title" content="Video Agent Loop：StarCut 的双循环架构，DeepSeek Harness 能接住吗？">
-  <meta property="og:description" content="从最小 ToolLoop 出发，沿着双循环、工具执行、外部 Agent 和媒体长任务逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。">
+  <meta property="og:description" content="从最小 ToolLoop 出发，沿着双循环、执行边界、长任务与画布控制逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。">
   <meta property="og:url" content="https://onbing.com/blog/video-agent-loop">
   <meta property="og:image" content="https://onbing.com/assets/posts/video-agent-loop/cover.png">
   <meta property="og:image:width" content="1672">
   <meta property="og:image:height" content="941">
   <meta property="og:locale" content="zh_CN">
-  <meta property="article:published_time" content="2026-08-18T00:00:00+08:00">
+  <meta property="article:published_time" content="2026-08-21T00:00:00+08:00">
   <meta property="article:modified_time" content="2026-08-21T00:00:00+08:00">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:creator" content="@MKonbing">
   <meta name="twitter:title" content="Video Agent Loop：StarCut 的双循环架构，DeepSeek Harness 能接住吗？">
-  <meta name="twitter:description" content="从最小 ToolLoop 出发，沿着双循环、工具执行、外部 Agent 和媒体长任务逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。">
+  <meta name="twitter:description" content="从最小 ToolLoop 出发，沿着双循环、执行边界、长任务与画布控制逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。">
   <meta name="twitter:image" content="https://onbing.com/assets/posts/video-agent-loop/cover.png">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Video Agent Loop：StarCut 的双循环架构，DeepSeek Harness 能接住吗？",
-  "description": "从最小 ToolLoop 出发，沿着双循环、工具执行、外部 Agent 和媒体长任务逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。",
+  "description": "从最小 ToolLoop 出发，沿着双循环、执行边界、长任务与画布控制逐层展开，解释 StarCut 如何形成可恢复、可感知、能真正完成视频创作的 Agent 架构。",
   "image": "https://onbing.com/assets/posts/video-agent-loop/cover.png",
-  "datePublished": "2026-08-18",
+  "datePublished": "2026-08-21",
   "dateModified": "2026-08-21",
   "author": {
     "@type": "Person",
@@ -67,7 +67,7 @@
   <main class="page" id="main">
     <article class="post-body post-body--diagram-scroll">
       <h1><span class="post-title-line post-title-nowrap">Video Agent Loop：</span><span class="post-title-line post-title-nowrap">StarCut 的双循环架构，</span><span class="post-title-line"><span class="post-title-mobile-line">DeepSeek Harness</span> <span class="post-title-mobile-line">能接住吗？</span></span></h1>
-      <p class="post-meta"><time datetime="2026-08-18">2026-08-18</time> · 更新于 2026-08-21</p>
+      <p class="post-meta"><time datetime="2026-08-21">2026-08-21</time></p>
       <p><img src="/assets/posts/video-agent-loop/cover.png" alt="Video Agent Loop：模型通过工具进入持续变化的视频项目"></p>
 
       <p>假设用户让 Agent 做一条三十秒的新品视频。Agent 看过当前项目，决定先生成一组产品特写；任务刚发出去，这一次模型运行就结束了。</p>
@@ -78,82 +78,48 @@
       <h2>一、先把 Agent 还原成一个 ToolLoop</h2>
       <p>大家经常用 ReAct 描述 Agent：reasoning、acting，再 reasoning。这个概念没有错，但它太容易停留在模型“会思考、会行动”的抽象层。工程真正需要实现的，其实只有一条可以运行的链路：</p>
       <p><img src="/assets/posts/video-agent-loop/tool-loop-foundation-v2.svg?v=20260821-2" alt="最小 Tool Loop：模型判断、调用工具、读取结果并进入下一步；多个 Step 构成 Run，多次 Run 构成 Session"></p>
-      <p>模型接收上下文，决定直接回答，或者输出一个结构化 Tool Call。Harness 校验参数、执行工具，把 Tool Result 放回上下文；模型拿到新的事实以后，再发起下一次请求。直到模型结束这次工作，或者触发停止条件。</p>
-      <p>我们更愿意把它叫作 <strong>ToolLoop</strong>。因为这个名字直接说明了系统必须做什么，没有暗示模型内部存在一套不可见的工作流。</p>
-      <p>这里先分清三个尺度：</p>
-      <ul>
-        <li><strong>Step</strong>：一次模型请求。它可能输出文字，也可能调用一个或多个工具。</li>
-        <li><strong>Run</strong>：一个进程中连续发生的多个 Step。模型调用工具、读取结果并继续，通常都在这一次 Run 里完成。</li>
-        <li><strong>Session / Thread</strong>：用户看到的一项持续任务。它可以跨越多次 Run，甚至跨越进程重启和浏览器断线。</li>
-      </ul>
-      <p>StarCut 的内层循环选择了 Vercel AI SDK 7 的 <code>ToolLoopAgent</code>。原因很直接：模型适配、Tool Calling、Schema 校验、多 Step、流式输出和停止条件已经是通用问题，没有必要为视频业务重新实现一遍。我们真正要设计的，是这个通用 Loop 之外的运行边界。</p>
+      <p>一次模型请求是 Step；同一进程里的多个 Step 是 Run；跨越多次 Run 的持续任务才是 Session。我们称它 ToolLoop，因为它只描述可运行的事实：判断、调用、拿到结果、继续。</p>
+      <p>StarCut 的内层循环选择 Vercel AI SDK 7 的 <code>ToolLoopAgent</code>，把模型适配、参数校验、多 Step 和流式输出这些通用问题交给它；我们只设计视频业务真正不同的运行边界。</p>
 
       <h2>二、Tool 是手，Skill 是说明书</h2>
       <p>模型本身既看不见项目，也改不了时间线。它能做什么，取决于系统给了它什么样的手和感知系统。</p>
       <p><img src="/assets/posts/video-agent-loop/tool-skill-kit-v2.svg?v=20260821-2" alt="Skill 是按需加载的方法，Tool 是视频 Agent 的感知、操作、协作和异步能力"></p>
-      <p><strong>Tool 是一个可执行接口。</strong>它有名字、输入 Schema 和结果。模型调用 <code>read</code>，真的读取当前项目；调用 <code>edit</code>，真的修改时间线；调用 <code>run_task</code>，真的提交一次生成任务。</p>
-      <p><strong>Skill 不执行任何事情。</strong>它是按需加载的领域方法：怎样组织一条时间线，什么时候需要安全区，图片生成该选择哪类输入，MG 动画有哪些可编辑属性。Skill 教模型怎样组合 Tool，却不能替 Tool 完成工作。</p>
-      <p>这一区分很重要。把所有方法都塞进系统提示词，上下文会越来越重；把每个工作流都固化成一个大 Tool，能力又会越来越僵。StarCut 只把 Skill 的名称和用途放进基础上下文，需要时再加载全文；Tool 则保持稳定、可校验、可执行。</p>
-      <p>一个视频 Agent 的基础工具大致分为四组：</p>
-      <table>
-        <thead><tr><th>能力</th><th>代表 Tool</th><th>Agent 得到什么</th></tr></thead>
-        <tbody>
-          <tr><td>感知</td><td><code>glob</code>、<code>grep</code>、<code>read</code>、<code>head</code>、<code>query</code></td><td>项目结构、当前内容、素材信息和可用模型</td></tr>
-          <tr><td>操作</td><td><code>write</code>、<code>edit</code>、<code>client_call</code></td><td>修改工程、播放预览、渲染或抽帧</td></tr>
-          <tr><td>协作</td><td><code>ask_user</code></td><td>从用户取得只有用户能决定的信息</td></tr>
-          <tr><td>异步</td><td><code>run_task</code>、<code>clock</code></td><td>提交长任务，或者在未来重新唤醒 Session</td></tr>
-        </tbody>
-      </table>
+      <p>Tool 真正作用于世界；Skill 只告诉模型何时、怎样组合 Tool。StarCut 让 Tool 保持稳定、可校验、可执行，只在基础上下文中放入 Skill 的名称和用途，需要时再加载完整方法。</p>
       <p>到这里，一个普通 ToolLoop 已经能工作：查询模型、读取项目、编辑时间线、取得结果，然后继续。但视频创作很快会把这个循环撑破。</p>
 
       <h2>三、视频创作为什么把一个 Loop 撑成了两层</h2>
-      <p>第一个问题是<strong>执行位置不同</strong>。模型目录和素材目录的查询适合在服务端执行；时间线、播放和本地渲染只能在真实 Editor 中执行；生成图片和视频要交给后台 Worker；创作取舍则要等用户。</p>
-      <p>第二个问题是<strong>时间尺度不同</strong>。一次查询只要几毫秒，一次编辑可能几百毫秒，一张图片需要数秒，一段视频可能需要几分钟。让模型进程一直等着，不但浪费资源，还会把系统正确性绑在网络连接和容器寿命上。</p>
-      <p>第三个问题是<strong>Session 比 Run 活得久</strong>。用户关掉网页、Worker 重启、部署替换容器，都不应该让已经提交的工作和刚才的对话消失。</p>
-      <p>这三个约束共同推出 StarCut 的双循环：</p>
+      <p>视频创作把三种差异塞进了同一个任务：工具可能在人、服务端、浏览器或 Worker 上执行；耗时从毫秒跨到几分钟；而 Session 还要活过断线、重启和部署。这三个约束共同推出 StarCut 的双循环：</p>
       <p><img src="/assets/posts/video-agent-loop/double-loop-runtime-v2.svg?v=20260821-2" alt="StarCut Video Agent Loop：内循环在一次 Run 中连续使用工具，外循环在用户、任务和项目发生变化后恢复新的 Run"></p>
-      <p><em>内循环推进当前判断，外循环把变化后的世界重新交给 Agent。</em></p>
-      <p><strong>内循环是一次有限 Run。</strong>它先从数据库恢复对话历史，领取 Inbox 中的新输入，再组装当前项目、记忆和按需 Skill，启动一个 <code>ToolLoopAgent</code>。Run 中可以连续完成多个 Step；如果用户在中途补充信息，新的消息会在下一个 Step 边界并入上下文。</p>
-      <p>这一次 Run 有两种输出。模型文字和 Tool 参数以 Delta 持续流向界面，让用户立即看到进度；完整消息和完整 Tool Call 则写入持久历史。前者负责体验，可以断；后者负责恢复，不能丢。Run 只有在完整消息保存以后，才确认本批 Inbox 已经被消费并释放运行租约。</p>
-      <p><strong>外循环不是另一个永远运行的模型循环。</strong>它是一个消息驱动的恢复机制：用户回答、Tool Result、Monitor 上下文和 Clock 提醒先进入 Inbox；如果当前 Run 还活着，它会在安全边界读取；如果当前 Run 已经结束，系统重新取得 Session 租约，从持久历史启动一个新的 Run。</p>
+      <p><strong>内循环推进当前判断，外循环把变化后的世界重新交给 Agent。</strong>Delta 只负责让用户即时看见过程；完整消息和 Inbox 才负责恢复。外循环也不让模型永远运行，而是让每个有限 Run 结束，再由新的事实触发下一次 Run。</p>
       <p>这也是 DeepSeek Harness 真正值得观察的地方。它的 append-only Session Log、Inbox 和可替换 Agent Loop，覆盖的正是这层通用问题。但视频项目、后台 Task 和浏览器执行权是否能在不复制状态的前提下接进去，要继续往下看。</p>
 
       <h2>四、一条 Tool Call，怎样跨过四种执行边界</h2>
       <p>模型只应该知道“我要调用什么能力”，不应该知道当前是哪台服务器、哪个浏览器标签页或哪一个 Worker 在执行。于是我们把 Tool Call 本身和执行位置拆开。</p>
-      <p><img src="/assets/posts/video-agent-loop/tool-execution-boundaries-v2.svg?v=20260821-2" alt="同一 Tool Call 先成为已提交消息，再分别交给 Human、Server Runner、Client Runner 或 Task Worker；结果统一回到 Inbox"></p>
-      <p>完整 Tool Call 先被保存为一条已提交消息。消息流让 UI 和各类执行组件都能看到它，但<strong>看见不等于有权执行</strong>。系统根据 Tool 的执行策略选择处理方式：</p>
-      <ul>
-        <li><code>ask_user</code> 的执行者是人。</li>
-        <li><code>query</code>、<code>load_skill</code>、<code>clock</code> 和 Task 提交由 Server Runner 处理。</li>
-        <li><code>read</code>、<code>write</code>、<code>edit</code> 和 <code>client_call</code> 交给一个明确指定的 Client Runner。</li>
-        <li>图片、视频、语音和转写最终由独立 Task Worker 完成。</li>
-      </ul>
-      <p>它们有不同的执行者，却共用同一个结果协议：普通结果携带 <code>toolCallId</code> 进入 Inbox，找到原来的 Tool Call。当前 Run 正在等待，就直接进入下一个 Step；Run 已经结束，就在下一次恢复时把原调用补成“结果可用”。</p>
+      <p><img src="/assets/posts/video-agent-loop/tool-execution-boundaries-v2.svg?v=20260821-3" alt="同一 Tool Call 先成为已提交消息，再分别交给 Human、Server Runner、Client Runner 或 Task Worker；结果统一回到 Inbox"></p>
+      <p>完整 Tool Call 先成为已提交消息；消息流让各类执行者都能看见它，执行策略、租约和凭证再决定谁能行动。结果统一回到 Inbox：Run 还在，就继续当前 Run；Run 已结束，就唤醒下一次。</p>
 
       <h3><code>ask_user</code>：问题发出去以后，旧进程可以消失</h3>
-      <p>假设 Agent 做到一半，需要用户决定成片用 16:9 还是 9:16。Agent 可以判断“这件事必须问人”，却不能替用户作答。它把问题保存下来；Editor 显示问题以后，Run A 就结束，等待期间不需要保留模型进程。</p>
+      <p>假设 Agent 做到一半，需要用户决定成片用 16:9 还是 9:16。它保存问题，Run A 就可以结束：</p>
       <p><img src="/assets/posts/video-agent-loop/ask-user-resume-v2.svg?v=20260821-2" alt="ask_user 的完整时序：Run A 保存问题后结束，用户在 Editor 回答，答案进入 Inbox，Run B 从同一个问题继续"></p>
-      <p>用户选择“9:16”，答案带着原问题的身份进入 Inbox。Run B 从持久历史恢复，看见这个问题已经有了答案，于是继续分镜。这里持续存在的不是旧进程，而是 Session 里那个尚未回答的问题。</p>
-      <p>所以，<code>ask_user</code> 验证的不是 Client Runner，而是更基础的一件事：<strong>一次 Run 可以结束，同一项任务仍然能够从人的回答继续。</strong></p>
+      <p><code>ask_user</code> 验证的不是 Client Runner，而是更基础的一件事：<strong>一次 Run 可以结束，同一项任务仍然能够从人的回答继续。</strong></p>
 
-      <h3><code>query</code>：为什么需要 Server Runner</h3>
-      <p>生成图片之前，Agent 先用 <code>query</code> 按用途查询可用模型；做配音时，也先查询模型支持的声音。这个查询发生在服务端，但我们没有把它直接写进通用 Loop。</p>
-      <p>Run 先保存 Tool Call，Server Runner 订阅已提交消息，调用服务端的查询能力取得权威目录结果，再用 <code>toolCallId</code> 写回 Inbox。通常结果很快，正在等待的 ToolLoopAgent 会在同一次 Run 中继续。</p>
-      <p>多走这一圈的价值不是“异步”。它建立了一条一致边界：通用 Loop 只管理 Tool Call 生命周期，应用层决定 Tool 的真实实现；即使进程在调用保存后崩溃，开放中的调用仍然可以重新发现。</p>
+      <h3><code>query</code>：为什么要绕一圈</h3>
+      <p>生成图片或配音之前，Agent 要先查询适合的模型；权威目录在服务端，但具体查询不写进通用 Loop：</p>
+      <p><img src="/assets/posts/video-agent-loop/query-server-runner-v2.svg?v=20260821-1" alt="query 的完整时序：ToolLoop 保存调用，Server Runner 查询权威模型目录，结果经 Inbox 回到同一次 Run"></p>
+      <p>多走这一圈不是为了异步，而是让 Loop 只管理调用的生命周期，应用层负责真实实现；即使中途崩溃，已经保存但尚未完成的查询仍能被找回来。</p>
 
       <h2>五、长任务怎样回来：Monitor 盯变化，Clock 盯时间</h2>
       <p>一段视频可能几分钟后才生成。模型进程不应该等在原地；StarCut 用两种方式把未来重新送回 Session：外部任务发生变化，交给 Monitor；Agent 想在未来主动复查，交给 Clock。</p>
 
       <h3>Monitor：任务变了，Agent 再判断</h3>
-      <p><code>run_task</code> 提交图片、视频或语音生成后，先返回“已经开始监控”。原 Tool Call 到此完成，Task 随后独立运行。</p>
+      <p><code>run_task</code> 提交生成后就完成原 Tool Call，Task 自己继续运行：</p>
       <p><img src="/assets/posts/video-agent-loop/monitor-resume-v2.svg?v=20260821-2" alt="Monitor 恢复长任务：Run A 提交任务后结束，Task 独立更新权威状态，Monitor 重新读取并整理变化，经 Inbox 唤醒 Run B"></p>
-      <p>任务表是事实，变化通知只是提示。Monitor 收到提示后重新读取任务，把同一批任务的最新进展整理成一次新感知，再经 Inbox 唤醒 Run B。它不执行生成，也不替模型决定下一步；模型仍要面对当前项目和新产物重新判断。</p>
+      <p>任务状态是事实，通知只是叫醒 Monitor；Monitor 重读并合并变化，再把新感知送回 Session，但不替模型做决定。</p>
 
       <h3>Clock：没有新事件，也可以在未来醒来</h3>
-      <p>有时 Agent 等的不是“任务完成”，而是“十分钟后再检查一次”。这时它给当前 Session 留下一只持久闹钟，然后结束本次 Run。</p>
+      <p>有时 Agent 等的不是“任务完成”，而是“十分钟后再检查一次”：</p>
       <p><img src="/assets/posts/video-agent-loop/clock-wakeup-v2.svg?v=20260821-2" alt="Clock 的持久唤醒：Agent 预约未来复查，闹钟独立保存，到点后提醒进入 Inbox 并启动新的 Run"></p>
-      <p>Clock 可以设置、修改、取消和列出闹钟。到点后，提醒进入 Inbox，新的 Run 再读取真实状态；等待期间没有进程在 <code>sleep</code>。Monitor 回答“外部世界变了什么”，Clock 回答“什么时候主动再看一眼”，最后都回到同一个外循环。</p>
-      <p>Coding Agent 常常跟踪一个后台进程；视频 Agent 跟踪的则是跨 Worker、模型供应商和存储系统的领域 Task。两者都需要可追踪的身份，但后者更不能把进程本身当成事实。</p>
+      <p>到点后，提醒进入 Inbox，新的 Run 再读取真实状态；等待期间没有进程在 <code>sleep</code>。Monitor 回答“外部世界变了什么”，Clock 回答“什么时候主动再看一眼”，最后都回到同一个外循环。</p>
 
       <h2>六、Agent 如何控制画布</h2>
       <p>AI 不直接拖动时间线，也不模拟鼠标。StarCut 把视频工程映射成一组可读、可修改的文件视图：时间线、脚本、MG 和 SVG 都有明确路径；Agent 读写这些文件，Editor 再把变化呈现在画布上。</p>
@@ -161,15 +127,14 @@
       <p><code>read</code>、<code>write</code>、<code>edit</code> 只是文件视图上的通用动作，核心是让 AI 拥有一种稳定、可发现、可局部修改的视频工程界面。这套设计在 <a href="/blog/edit-video-as-code">《Edit Video as Code：将视频工程映射为 Coding Agent 可读写的虚拟文件视图》</a> 中有更完整的展开。</p>
       <p>人继续面对画布和时间线，Agent 面对文件视图；它们修改的是同一个项目。文件一变，画布更新；新的画布现场又成为 Agent 下一步判断的依据。</p>
 
-      <h2>七、外部 Agent 怎样控制同一块画布</h2>
+      <h2>七、外部 Agent 如何进入同一块画布</h2>
       <p>StarCut 选择浏览器，是因为获客更直接、链接更容易传播，也能让 Codex、Claude Code 等外部 Agent 进入同一个编辑现场。代价是播放、预览和渲染仍然依赖一个真实在线的 Editor。</p>
       <p><img src="/assets/posts/video-agent-loop/client-canvas-sequence-v2.svg?v=20260821-2" alt="内置 Agent、MCP 和未来 CLI 通过统一 Project API 复用同一套画布能力，现场命令只交给一个在线 Editor"></p>
-      <p>内置 Agent 从自己的 ToolLoop 进入，Codex 等外部 Agent 当前通过 MCP 进入，未来 CLI 也只是另一种适配器。下一步的方向，是把真正的产品边界提升为统一 Project API：一种能力只定义一次，入口只负责翻译。</p>
-      <p>项目读取和结构化编辑可以直接复用同一套语义操作；播放、预览、本地渲染等现场命令则交给在线 Editor。长连接负责发现现场，执行权保证多个窗口中只有一个真正行动，避免同一次编辑发生多遍。</p>
+      <p>内置 Tool、当前的 MCP 和未来 CLI 都只是统一 Project API 的适配器：结构化编辑复用同一套语义操作；播放、预览和本地渲染交给一个在线 Editor，避免多个窗口重复行动。</p>
 
       <h2>八、最后，回到产品</h2>
       <p>如果把前面的架构压成一张图，就是下面这样：Harness 接住通用循环，StarCut 接住真实的创作现场。</p>
-      <p><img src="/assets/posts/video-agent-loop/video-agent-architecture-final-v2.svg?v=20260821-2" alt="StarCut Video Agent 完整架构：DeepSeek Harness 可承接通用 Session、Inbox 和 ToolLoop，StarCut 保留视频项目语义、媒体任务与在线 Editor，最终产出可继续编辑的视频项目"></p>
+      <p><img src="/assets/posts/video-agent-loop/video-agent-architecture-final-v2.svg?v=20260821-3" alt="StarCut Video Agent 完整架构：DeepSeek Harness 可承接通用 Session、Inbox 和 ToolLoop，StarCut 保留视频项目语义、媒体任务与在线 Editor，最终产出可继续编辑的视频项目"></p>
       <p>DeepSeek Harness 真正的挑战，不是能不能再跑一个 ToolLoop，而是能不能接入以后让系统变得更少：通用运行时由它承接，视频项目、媒体任务和编辑现场仍然只有一份事实。如果接完反而多出第二套状态，它就没有接住。</p>
       <p>StarCut 是一个 Agent 可以直接创作、人也能随时接手精修的浏览器视频编辑器。你只需要说想做什么，Agent 会找素材、生成媒体、改时间线；中途关掉页面也没关系，回来还能从原来的项目继续。想看看这套 Loop 最后是不是能变成一条真正的视频，可以直接打开 <a href="https://starcut.io">StarCut</a> 试试。</p>
 
