@@ -5,7 +5,7 @@
     <link>https://onbing.com/</link>
     <description>关于 AI、视频技术与创作工具的个人博客。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 20 Aug 2026 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://onbing.com/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Video GOP Decode Flight：像调度高铁一样实现丝滑剪辑</title>
@@ -27,6 +27,20 @@
       <guid isPermaLink="true">https://onbing.com/blog/edit-video-as-code</guid>
       <pubDate>Mon, 17 Aug 2026 00:00:00 +0800</pubDate>
       <description>让 Coding Agent 像操作代码仓库一样发现、读取、定位、局部修改和验证同一份视频工程。</description>
+    </item>
+    <item>
+      <title>组织演变：从带好人，到带好混合团队</title>
+      <link>https://onbing.com/thinking/organization-evolution</link>
+      <guid isPermaLink="true">https://onbing.com/thinking/organization-evolution</guid>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 +0800</pubDate>
+      <description>当团队从 4 名坐班同事扩展为人与 Agent 共同工作的混合组织，管理对象、工作系统与人的价值也随之改变。</description>
+    </item>
+    <item>
+      <title>产品演变：从 Deamoy 到创作桌面</title>
+      <link>https://onbing.com/thinking/product-evolution</link>
+      <guid isPermaLink="true">https://onbing.com/thinking/product-evolution</guid>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 +0800</pubDate>
+      <description>一次关于产品命题如何被真实交付推翻、修正并重建的复盘：从 Deamoy 的人机协作与 Visual DSL，到有边界的视频创作、Agent 世界和创作桌面。</description>
     </item>
   </channel>
 </rss>
