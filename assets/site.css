@@ -760,8 +760,17 @@ a:focus-visible {
   text-align: center;
 }
 
-.deck-page {
-  width: min(1120px, calc(100% - 40px));
+.post-media {
+  width: 100%;
+  margin: 1.5em 0 0.6em;
+}
+
+.post-media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000000;
+  border-radius: 4px;
 }
 
 .deck-header {
@@ -937,10 +946,6 @@ a:focus-visible {
 
   .post-body h2 {
     font-size: 24px;
-  }
-
-  .deck-page {
-    width: min(100% - 20px, 1120px);
   }
 
   .deck-header {
