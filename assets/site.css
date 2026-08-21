@@ -114,9 +114,234 @@ a:focus-visible {
   font-size: 19px;
 }
 
-.home-intro .home-links {
-  margin-top: 14px;
+.home-hero {
+  margin-bottom: 108px;
+}
+
+.hero-kicker {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.home-hero h1 {
+  margin: 0 0 18px;
+  font-size: clamp(52px, 10vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.hero-intro {
+  max-width: 760px;
+  margin: 0;
+  color: #3f4750;
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+.hero-intro strong {
+  color: var(--text);
+}
+
+.social-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 32px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 15px;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--border);
+}
+
+.social-list a:hover {
+  border-color: var(--text);
+}
+
+.social-list span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.social-list strong {
   font-size: 15px;
+}
+
+.github-activity {
+  display: grid;
+  grid-template-columns: 138px minmax(0, 1fr);
+  gap: 28px;
+  padding: 22px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--soft);
+  border: 1px solid var(--border);
+}
+
+.github-activity:hover {
+  border-color: var(--text);
+}
+
+.github-activity-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.github-activity-copy > span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.github-activity-copy strong {
+  margin-block: 2px;
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.github-activity-copy small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.github-graph {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.github-graph img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.home-section {
+  margin-bottom: 96px;
+}
+
+.home-section:last-child {
+  margin-bottom: 0;
+}
+
+.home-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 34px;
+  padding-top: 16px;
+  border-top: 2px solid var(--text);
+}
+
+.home-section-heading div {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.home-section-heading span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.home-section-heading h2 {
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.home-section-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.content-kind {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.content-kind--spaced {
+  margin-top: 38px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.product-list li {
+  border-bottom: 1px solid var(--border);
+}
+
+.product-list li:nth-child(odd) {
+  border-right: 1px solid var(--border);
+}
+
+.product-list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.product-list a:hover strong {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.16em;
+}
+
+.product-list span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.work-demo {
+  margin: 0;
+}
+
+.work-demo video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000000;
+  border: 1px solid var(--border);
+}
+
+.work-demo figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.work-demo figcaption span {
+  flex: none;
+  color: var(--muted);
 }
 
 .section-title {
@@ -323,6 +548,65 @@ a:focus-visible {
 
   .home-intro {
     margin-bottom: 52px;
+  }
+
+  .home-hero {
+    margin-bottom: 76px;
+  }
+
+  .hero-intro {
+    font-size: 20px;
+  }
+
+  .social-list {
+    grid-template-columns: 1fr;
+  }
+
+  .github-activity {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .github-activity-copy {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 16px;
+  }
+
+  .github-activity-copy strong {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .home-section {
+    margin-bottom: 72px;
+  }
+
+  .home-section-heading {
+    align-items: flex-end;
+    margin-bottom: 28px;
+  }
+
+  .home-section-heading h2 {
+    font-size: 32px;
+  }
+
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+
+  .product-list li:nth-child(odd) {
+    border-right: 0;
+  }
+
+  .work-demo figcaption {
+    display: block;
+  }
+
+  .work-demo figcaption span {
+    margin-top: 2px;
   }
 
   .post-body h2 {
