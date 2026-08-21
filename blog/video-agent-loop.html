@@ -167,21 +167,11 @@
       <p>内置 Agent 从自己的 ToolLoop 进入，Codex 等外部 Agent 当前通过 MCP 进入，未来 CLI 也只是另一种适配器。下一步的方向，是把真正的产品边界提升为统一 Project API：一种能力只定义一次，入口只负责翻译。</p>
       <p>项目读取和结构化编辑可以直接复用同一套语义操作；播放、预览、本地渲染等现场命令则交给在线 Editor。长连接负责发现现场，执行权保证多个窗口中只有一个真正行动，避免同一次编辑发生多遍。</p>
 
-      <h2>八、回头看，完整架构是怎样长出来的</h2>
-      <p>现在再看 StarCut 的 Video Agent Loop，它不是先画出一张复杂架构图，再给每个方框找用途。它是从一个最小 ToolLoop 开始，被视频创作的真实约束一层层推出来的：</p>
-      <ol>
-        <li>模型需要观察和行动，于是有了 ToolLoop。</li>
-        <li>视频领域的方法不能全部塞进 Prompt，于是 Tool 与 Skill 分开。</li>
-        <li>Tool 在不同位置执行，于是有了 Human、Server Runner、Client Runner 和 Task Worker。</li>
-        <li>Tool Call 必须先于副作用留下事实，于是有了持久消息和统一的 <code>toolCallId</code> 结果路径。</li>
-        <li>视频任务比一次 Run 活得久，于是有了 Inbox、Monitor、Clock 和可恢复 Session。</li>
-        <li><code>write</code> / <code>edit</code> 操作项目语义，画布只是同一项目变化后的可视结果。</li>
-        <li>外部 Agent 也要进入这块画布，于是 MCP、CLI 和内置 Agent 必须向统一 API 收敛。</li>
-        <li>现场能力不能被多个窗口重复执行，于是有了长连接和 Client Lease。</li>
-      </ol>
-      <p>内循环解决“拿到当前结果以后，下一步做什么”；外循环解决“当前 Run 已经结束，新的世界变化怎样让 Agent 再次开始”。Agent 操纵画布，则是两层循环最终闭合的地方：模型产生语义操作，统一 API 改变项目，新的画布现场又成为下一步判断的依据。</p>
-      <p>DeepSeek Harness 能不能接住这套系统，也应该按这条边界判断。模型适配、Session Log、Inbox、Tool Pipeline 和基础 Agent Loop 越通用，越值得交给 Harness；视频项目语义、领域 Tool、Task 与 Artifact、Monitor 的任务认知和 Editor 执行权，仍然应该由 StarCut 定义。</p>
-      <p>判断标准很简单：接入以后能删除一套通用循环，就是架构收敛；如果只是把现有系统包成一组插件，概念一个没少，那只是在外面又加了一层。</p>
+      <h2>八、最后，回到产品</h2>
+      <p>如果把前面的架构压成一张图，就是下面这样：Harness 接住通用循环，StarCut 接住真实的创作现场。</p>
+      <p><img src="/assets/posts/video-agent-loop/video-agent-architecture-final-v2.svg?v=20260821-2" alt="StarCut Video Agent 完整架构：DeepSeek Harness 可承接通用 Session、Inbox 和 ToolLoop，StarCut 保留视频项目语义、媒体任务与在线 Editor，最终产出可继续编辑的视频项目"></p>
+      <p>DeepSeek Harness 真正的挑战，不是能不能再跑一个 ToolLoop，而是能不能接入以后让系统变得更少：通用运行时由它承接，视频项目、媒体任务和编辑现场仍然只有一份事实。如果接完反而多出第二套状态，它就没有接住。</p>
+      <p>StarCut 是一个 Agent 可以直接创作、人也能随时接手精修的浏览器视频编辑器。你只需要说想做什么，Agent 会找素材、生成媒体、改时间线；中途关掉页面也没关系，回来还能从原来的项目继续。想看看这套 Loop 最后是不是能变成一条真正的视频，可以直接打开 <a href="https://starcut.io">StarCut</a> 试试。</p>
 
       <h2>相关资料</h2>
       <ol>
