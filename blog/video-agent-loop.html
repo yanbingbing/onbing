@@ -155,7 +155,7 @@
       <p>Clock 可以设置、修改、取消和列出闹钟。到点后，提醒进入 Inbox，新的 Run 再读取真实状态；等待期间没有进程在 <code>sleep</code>。Monitor 回答“外部世界变了什么”，Clock 回答“什么时候主动再看一眼”，最后都回到同一个外循环。</p>
       <p>Coding Agent 常常跟踪一个后台进程；视频 Agent 跟踪的则是跨 Worker、模型供应商和存储系统的领域 Task。两者都需要可追踪的身份，但后者更不能把进程本身当成事实。</p>
 
-      <h2>六、Agent 怎样通过文件视图控制画布</h2>
+      <h2>六、Agent 如何控制画布</h2>
       <p>AI 不直接拖动时间线，也不模拟鼠标。StarCut 把视频工程映射成一组可读、可修改的文件视图：时间线、脚本、MG 和 SVG 都有明确路径；Agent 读写这些文件，Editor 再把变化呈现在画布上。</p>
       <p><img src="/assets/posts/video-agent-loop/canvas-write-edit-v2.svg?v=20260821-3" alt="Agent 通过文件视图控制画布：AI 读取并修改视频工程的文件视图，Editor 将变化写回同一个项目，时间线与画布随之更新"></p>
       <p><code>read</code>、<code>write</code>、<code>edit</code> 只是文件视图上的通用动作，核心是让 AI 拥有一种稳定、可发现、可局部修改的视频工程界面。这套设计在 <a href="/blog/edit-video-as-code">《Edit Video as Code：将视频工程映射为 Coding Agent 可读写的虚拟文件视图》</a> 中有更完整的展开。</p>
