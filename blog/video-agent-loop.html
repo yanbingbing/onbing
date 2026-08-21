@@ -155,11 +155,11 @@
       <p>Clock 可以设置、修改、取消和列出闹钟。到点后，提醒进入 Inbox，新的 Run 再读取真实状态；等待期间没有进程在 <code>sleep</code>。Monitor 回答“外部世界变了什么”，Clock 回答“什么时候主动再看一眼”，最后都回到同一个外循环。</p>
       <p>Coding Agent 常常跟踪一个后台进程；视频 Agent 跟踪的则是跨 Worker、模型供应商和存储系统的领域 Task。两者都需要可追踪的身份，但后者更不能把进程本身当成事实。</p>
 
-      <h2>六、Agent 怎样通过 <code>write</code> / <code>edit</code> 控制画布</h2>
-      <p>模型不能直接拖动时间线，也不应该模拟鼠标。它先把创作意图写成项目操作：新建或整体重写用 <code>write</code>，只改局部用 <code>edit</code>。</p>
-      <p><img src="/assets/posts/video-agent-loop/canvas-write-edit-v2.svg?v=20260821-2" alt="内置 Agent 通过 write 和 edit 修改项目语义：Client Runner 把操作交给对应项目文档，项目变化后时间线与画布自然更新，结果再回到 ToolLoop"></p>
-      <p><code>write</code> / <code>edit</code> 都指向明确的项目路径。Client Runner 根据目标把操作交给时间线、文档或可编辑素材，再写回同一份项目事实。界面没有一条“专供 Agent”的旁路；它只是像面对人的编辑一样，呈现项目变化。</p>
-      <p>于是完整反馈是：Agent 读取项目，做出语义修改，画布和时间线更新，结果回到 ToolLoop，Agent 再读取新的现场。<strong>画布是项目状态的可视结果，不是 Agent 的操作接口。</strong></p>
+      <h2>六、Agent 怎样通过文件视图控制画布</h2>
+      <p>AI 不直接拖动时间线，也不模拟鼠标。StarCut 把视频工程映射成一组可读、可修改的文件视图：时间线、脚本、MG 和 SVG 都有明确路径；Agent 读写这些文件，Editor 再把变化呈现在画布上。</p>
+      <p><img src="/assets/posts/video-agent-loop/canvas-write-edit-v2.svg?v=20260821-3" alt="Agent 通过文件视图控制画布：AI 读取并修改视频工程的文件视图，Editor 将变化写回同一个项目，时间线与画布随之更新"></p>
+      <p><code>read</code>、<code>write</code>、<code>edit</code> 只是文件视图上的通用动作，核心是让 AI 拥有一种稳定、可发现、可局部修改的视频工程界面。这套设计在 <a href="/blog/edit-video-as-code">《Edit Video as Code：将视频工程映射为 Coding Agent 可读写的虚拟文件视图》</a> 中有更完整的展开。</p>
+      <p>人继续面对画布和时间线，Agent 面对文件视图；它们修改的是同一个项目。文件一变，画布更新；新的画布现场又成为 Agent 下一步判断的依据。</p>
 
       <h2>七、外部 Agent 怎样控制同一块画布</h2>
       <p>StarCut 选择浏览器，是因为获客更直接、链接更容易传播，也能让 Codex、Claude Code 等外部 Agent 进入同一个编辑现场。代价是播放、预览和渲染仍然依赖一个真实在线的 Editor。</p>

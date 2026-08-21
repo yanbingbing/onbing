@@ -1,74 +1,82 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900" viewBox="0 0 1800 900" role="img" aria-labelledby="title desc">
-  <title id="title">write 和 edit 把 Agent 的意图变成画布变化</title>
-  <desc id="desc">Agent 先读取项目并形成语义操作。write 用于新建或整体重写，edit 用于局部修改。一个被选中的 Client Runner 把操作交给目标项目文档，项目状态变化后时间线和画布更新，结果回到 ToolLoop。</desc>
+  <title id="title">AI 修改文件视图，Editor 更新画布</title>
+  <desc id="desc">StarCut 把视频工程映射为 Agent 可读写的文件视图。Agent 读取并修改时间线、文档、MG 或 SVG 文件，Editor 将文件变化应用到同一个项目，画布和时间线随之更新，新的现场再回到 Agent 的下一步判断。</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131f"/><stop offset="1" stop-color="#151326"/></linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
     <marker id="cyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#67e8f9"/></marker>
     <marker id="violet" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#c4b5fd"/></marker>
     <marker id="green" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11Z" fill="#6ee7b7"/></marker>
-    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:40px;font-weight:700;fill:#f8fafc}.sub{font-size:20px;fill:#94a3b8}.step{font-size:15px;font-weight:700;letter-spacing:1px}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:17px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
+    <style>text{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}.h{font-size:42px;font-weight:700;fill:#f8fafc}.sub{font-size:21px;fill:#94a3b8}.step{font-size:15px;font-weight:700;letter-spacing:1px}.t{font-size:21px;font-weight:700;fill:#f8fafc}.p{font-size:17px;fill:#cbd5e1}.m{font-size:14px;fill:#94a3b8}.box{filter:url(#shadow)}</style>
   </defs>
   <rect width="1800" height="900" fill="url(#bg)"/>
-  <text x="900" y="60" text-anchor="middle" class="h">Agent 不拖动画布，它修改画布背后的项目</text>
-  <text x="900" y="100" text-anchor="middle" class="sub">read 看见现在，write / edit 改变项目，新的画布再成为下一步感知</text>
+  <text x="900" y="60" text-anchor="middle" class="h">AI 修改文件视图，Editor 更新画布</text>
+  <text x="900" y="102" text-anchor="middle" class="sub">文件视图是 Agent 的工作界面；画布和时间线是人的工作界面</text>
 
   <g class="box">
-    <rect x="60" y="185" width="280" height="330" rx="28" fill="#102e43" stroke="#38bdf8" stroke-width="2"/>
-    <rect x="390" y="185" width="330" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
-    <rect x="770" y="185" width="280" height="330" rx="28" fill="#172a3d" stroke="#38bdf8" stroke-width="2"/>
-    <rect x="1100" y="185" width="300" height="330" rx="28" fill="#15342f" stroke="#34d399" stroke-width="2"/>
-    <rect x="1450" y="185" width="290" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="55" y="185" width="270" height="330" rx="28" fill="#102e43" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="370" y="160" width="380" height="380" rx="30" fill="#282044" stroke="#a78bfa" stroke-width="3"/>
+    <rect x="795" y="185" width="270" height="330" rx="28" fill="#172a3d" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="1110" y="185" width="280" height="330" rx="28" fill="#15342f" stroke="#34d399" stroke-width="2"/>
+    <rect x="1435" y="185" width="310" height="330" rx="28" fill="#282044" stroke="#a78bfa" stroke-width="2"/>
   </g>
 
-  <text x="100" y="228" class="step" fill="#67e8f9">TOOLLOOP</text>
-  <text x="200" y="279" text-anchor="middle" class="t">先读懂当前项目</text>
-  <text x="200" y="323" text-anchor="middle" class="p">素材 · 时间线 · 文档</text>
-  <rect x="105" y="365" width="190" height="58" rx="17" fill="#12384a"/>
-  <text x="200" y="401" text-anchor="middle" class="p">read → 创作判断</text>
-  <text x="200" y="475" text-anchor="middle" class="m">例如：开场需要一张标题卡</text>
+  <text x="95" y="228" class="step" fill="#67e8f9">AGENT</text>
+  <text x="190" y="279" text-anchor="middle" class="t">理解创作目标</text>
+  <text x="190" y="323" text-anchor="middle" class="p">先读取工程，再决定修改</text>
+  <rect x="95" y="365" width="190" height="68" rx="18" fill="#12384a"/>
+  <text x="190" y="394" text-anchor="middle" class="p">“开场增加标题卡”</text>
+  <text x="190" y="418" text-anchor="middle" class="m">不是“点击某个坐标”</text>
+  <text x="190" y="475" text-anchor="middle" class="m">输出文件层面的修改意图</text>
 
-  <text x="430" y="228" class="step" fill="#c4b5fd">SEMANTIC TOOLS</text>
-  <text x="555" y="279" text-anchor="middle" class="t">形成项目操作</text>
-  <rect x="435" y="325" width="240" height="72" rx="18" fill="#30265a"/>
-  <text x="555" y="356" text-anchor="middle" class="p">write</text>
-  <text x="555" y="381" text-anchor="middle" class="m">新建 / 整体重写</text>
-  <rect x="435" y="415" width="240" height="72" rx="18" fill="#30265a"/>
-  <text x="555" y="446" text-anchor="middle" class="p">edit</text>
-  <text x="555" y="471" text-anchor="middle" class="m">对已有内容做局部修改</text>
+  <text x="415" y="205" class="step" fill="#c4b5fd">VIRTUAL FILE VIEW</text>
+  <text x="560" y="257" text-anchor="middle" class="t">Agent 可读写的工程视图</text>
+  <rect x="415" y="295" width="290" height="52" rx="15" fill="#30265a"/>
+  <text x="560" y="328" text-anchor="middle" class="p">compositions/main.vml</text>
+  <rect x="415" y="360" width="290" height="52" rx="15" fill="#30265a"/>
+  <text x="560" y="393" text-anchor="middle" class="p">docs/script.md</text>
+  <rect x="415" y="425" width="290" height="52" rx="15" fill="#30265a"/>
+  <text x="560" y="458" text-anchor="middle" class="p">assets/title.mg · logo.svg</text>
+  <text x="560" y="510" text-anchor="middle" class="m">read · write · edit 只是操作这些文件的动词</text>
 
-  <text x="810" y="228" class="step" fill="#67e8f9">CLIENT RUNNER</text>
-  <text x="910" y="279" text-anchor="middle" class="t">选中的 Editor 执行</text>
-  <text x="910" y="323" text-anchor="middle" class="p">根据目标路径找到对象</text>
-  <text x="910" y="365" text-anchor="middle" class="m">时间线 / 文档 / MG / SVG</text>
-  <text x="910" y="407" text-anchor="middle" class="m">同一次调用只执行一遍</text>
-  <text x="910" y="475" text-anchor="middle" class="m">不是模拟鼠标和屏幕坐标</text>
+  <text x="835" y="228" class="step" fill="#67e8f9">EDITOR</text>
+  <text x="930" y="279" text-anchor="middle" class="t">理解文件变化</text>
+  <text x="930" y="323" text-anchor="middle" class="p">路径决定目标对象</text>
+  <text x="930" y="365" text-anchor="middle" class="m">整体写入或局部修改</text>
+  <text x="930" y="402" text-anchor="middle" class="m">转换成项目里的语义操作</text>
+  <text x="930" y="475" text-anchor="middle" class="m">不是另起一条 Agent 专用旁路</text>
 
-  <text x="1140" y="228" class="step" fill="#6ee7b7">PROJECT</text>
-  <text x="1250" y="279" text-anchor="middle" class="t">改变同一份项目事实</text>
-  <rect x="1145" y="325" width="210" height="112" rx="18" fill="#0f443d"/>
+  <text x="1150" y="228" class="step" fill="#6ee7b7">ONE PROJECT</text>
+  <text x="1250" y="279" text-anchor="middle" class="t">改变同一份项目</text>
+  <rect x="1150" y="325" width="200" height="112" rx="18" fill="#0f443d"/>
   <text x="1250" y="360" text-anchor="middle" class="p">插入标题卡</text>
   <text x="1250" y="392" text-anchor="middle" class="m">0–3 秒 · 竖屏安全区</text>
-  <text x="1250" y="475" text-anchor="middle" class="m">人、协同与 Agent 看见同一修改</text>
+  <text x="1250" y="475" text-anchor="middle" class="m">人和 Agent 看见同一次修改</text>
 
-  <text x="1490" y="228" class="step" fill="#c4b5fd">EDITOR UI</text>
-  <text x="1595" y="279" text-anchor="middle" class="t">画布呈现新结果</text>
-  <rect x="1495" y="325" width="200" height="112" rx="18" fill="#30265a"/>
-  <rect x="1515" y="345" width="160" height="54" rx="10" fill="#111827" stroke="#67e8f9"/>
-  <text x="1595" y="379" text-anchor="middle" class="p">新品发布</text>
-  <rect x="1515" y="410" width="48" height="12" rx="6" fill="#6ee7b7"/>
-  <rect x="1569" y="410" width="76" height="12" rx="6" fill="#a78bfa"/>
-  <rect x="1651" y="410" width="24" height="12" rx="6" fill="#38bdf8"/>
-  <text x="1595" y="475" text-anchor="middle" class="m">时间线和预览自然更新</text>
+  <text x="1475" y="228" class="step" fill="#c4b5fd">CANVAS</text>
+  <text x="1590" y="279" text-anchor="middle" class="t">画布呈现结果</text>
+  <rect x="1480" y="325" width="220" height="112" rx="18" fill="#30265a"/>
+  <rect x="1500" y="345" width="180" height="54" rx="10" fill="#111827" stroke="#67e8f9"/>
+  <text x="1590" y="379" text-anchor="middle" class="p">新品发布</text>
+  <rect x="1500" y="410" width="52" height="12" rx="6" fill="#6ee7b7"/>
+  <rect x="1559" y="410" width="82" height="12" rx="6" fill="#a78bfa"/>
+  <rect x="1648" y="410" width="32" height="12" rx="6" fill="#38bdf8"/>
+  <text x="1590" y="475" text-anchor="middle" class="m">时间线、预览与协同一起更新</text>
 
-  <path d="M340 350H380" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
-  <path d="M720 350H760" stroke="#c4b5fd" stroke-width="4" marker-end="url(#violet)"/>
-  <path d="M1050 350H1090" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
-  <path d="M1400 350H1440" stroke="#6ee7b7" stroke-width="4" marker-end="url(#green)"/>
+  <path d="M325 350H360" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M750 350H785" stroke="#c4b5fd" stroke-width="4" marker-end="url(#violet)"/>
+  <path d="M1065 350H1100" stroke="#67e8f9" stroke-width="4" marker-end="url(#cyan)"/>
+  <path d="M1390 350H1425" stroke="#6ee7b7" stroke-width="4" marker-end="url(#green)"/>
 
-  <path d="M1595 535C1595 690 1270 750 900 750C520 750 200 690 200 535" stroke="#67e8f9" stroke-width="4" fill="none" stroke-dasharray="10 10" marker-end="url(#cyan)"/>
-  <text x="900" y="692" text-anchor="middle" class="t">Result 回到 ToolLoop；下一次 read 看见更新后的现场</text>
+  <path d="M1590 535C1590 675 1260 720 900 720C535 720 190 675 190 535" stroke="#67e8f9" stroke-width="4" fill="none" stroke-dasharray="10 10" marker-end="url(#cyan)"/>
+  <text x="900" y="665" text-anchor="middle" class="t">更新后的项目重新成为 Agent 的下一次感知</text>
 
-  <rect x="260" y="800" width="1280" height="58" rx="18" fill="#171e2e" stroke="#475569"/>
-  <text x="900" y="837" text-anchor="middle" class="p">Tool 操作项目语义 → 项目驱动画布；画布本身从来不是 Agent API</text>
+  <g class="box">
+    <rect x="185" y="780" width="620" height="85" rx="24" fill="#282044" stroke="#a78bfa"/>
+    <rect x="995" y="780" width="620" height="85" rx="24" fill="#15342f" stroke="#34d399"/>
+  </g>
+  <text x="495" y="815" text-anchor="middle" class="t">Agent 的界面：文件视图</text>
+  <text x="495" y="844" text-anchor="middle" class="m">稳定路径 · 可发现结构 · 可局部修改</text>
+  <text x="1305" y="815" text-anchor="middle" class="t">人的界面：画布与时间线</text>
+  <text x="1305" y="844" text-anchor="middle" class="m">直接预览 · 手工精修 · 协同创作</text>
 </svg>
