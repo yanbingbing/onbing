@@ -8,6 +8,13 @@
     <lastBuildDate>Fri, 21 Aug 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://onbing.com/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Video Motion Graphics：把动画变成时间的函数</title>
+      <link>https://onbing.com/blog/video-motion-graphics</link>
+      <guid isPermaLink="true">https://onbing.com/blog/video-motion-graphics</guid>
+      <pubDate>Fri, 21 Aug 2026 00:00:00 +0800</pubDate>
+      <description>把 MG 定义为时间的函数：一份可编辑 SVG 源，同时服务 Live Preview、随机 Seek、Scrub、缩略图和逐帧导出。</description>
+    </item>
+    <item>
       <title>Video GOP Decode Flight：像调度高铁一样实现丝滑剪辑</title>
       <link>https://onbing.com/blog/video-gop-decode-flight</link>
       <guid isPermaLink="true">https://onbing.com/blog/video-gop-decode-flight</guid>
