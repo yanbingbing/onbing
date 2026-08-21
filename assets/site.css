@@ -805,7 +805,9 @@ a:focus-visible {
 }
 
 .post-item article {
+  display: flex;
   min-width: 0;
+  flex-direction: column;
 }
 
 .post-item time,
@@ -814,8 +816,15 @@ a:focus-visible {
   font-size: 14px;
 }
 
+.post-item time {
+  order: 3;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
 .post-item h2 {
-  margin: 6px 0 8px;
+  order: 1;
+  margin: 0 0 8px;
   font-size: 24px;
   line-height: 1.35;
   letter-spacing: -0.02em;
@@ -828,6 +837,7 @@ a:focus-visible {
 .post-item p {
   display: -webkit-box;
   overflow: hidden;
+  order: 2;
   margin: 0;
   color: var(--muted);
   line-height: 1.65;
@@ -1117,6 +1127,12 @@ a:focus-visible {
 
   .home-section-heading h2 {
     font-size: 32px;
+  }
+
+  .home-section-heading p {
+    max-width: 150px;
+    line-height: 1.4;
+    text-align: right;
   }
 
   .thought-grid {
