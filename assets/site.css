@@ -114,6 +114,11 @@ a:focus-visible {
   font-size: 19px;
 }
 
+.home-intro .home-links {
+  margin-top: 14px;
+  font-size: 15px;
+}
+
 .section-title {
   margin: 0 0 14px;
   font-size: 15px;
